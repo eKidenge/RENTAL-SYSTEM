@@ -89,7 +89,7 @@ def contact(request):
         subject = request.POST['subject']
         email = request.POST['email']
         body = request.POST['body']
-        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+        regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
         if re.search(regex, email):
             pass
         else:
@@ -140,7 +140,7 @@ def register(request):
     phone = request.POST['phone']
     pas = request.POST['pass']
     cpas = request.POST['cpass']
-    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     if re.search(regex, email):
         pass
     else:
