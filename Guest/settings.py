@@ -27,7 +27,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '$$ac@i2xro*#8(t8kot@@4-ev^zcued9(y4=z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.onrender.com',
+    'rental-system-vs9f.onrender.com',
+    '*'
+]
 
 
 # Application definition
