@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 echo "🚀 Starting build process for RENTAL-SYSTEM..."
 
+# Exit on error
+set -e
+
 # 1. Remove everything - database and all migrations
 echo "🧹 Cleaning up..."
 rm -f db.sqlite3
@@ -19,9 +22,13 @@ python manage.py makemigrations --noinput
 echo "🗄️  Applying migrations..."
 python manage.py migrate --noinput
 
-# 4. Load initial data
-echo "📊 Loading initial data..."
-python load_data.py
+# 4. Load initial data (if load_data.py exists)
+if [ -f "load_data.py" ]; then
+    echo "📊 Loading initial data..."
+    python load_data.py
+else
+    echo "ℹ️ load_data.py not found, skipping..."
+fi
 
 # 5. Collect static files
 echo "🎨 Collecting static files..."
@@ -31,6 +38,8 @@ python manage.py collectstatic --noinput
 echo "👤 Creating superuser..."
 python manage.py shell << EOF
 from user.models import User
+import django
+django.setup()
 
 # Delete existing admin if exists
 User.objects.filter(email='admin@admin.com').delete()
@@ -61,4 +70,6 @@ echo "✅ Build completed successfully!"
 echo "========================================"
 echo "🔑 Superuser: admin@admin.com"
 echo "🔑 Password: admin123"
+echo "📧 Test User: test@example.com"
+echo "🔑 Password: test123"
 echo "========================================"
