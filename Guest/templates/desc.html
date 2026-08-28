@@ -1,135 +1,456 @@
-{%extends 'base.html' %}
-{%load static%}
-{%block body%}
-<div class="w3-container" style="margin-top:1%; margin-left: 10%; margin-right: 10%; margin-bottom: 1%;">
+{% extends 'base.html' %}
+{% load static %}
 
-    <h2 style="margin-left:10px; ">Description</h2>
-    <div class="row w3-about-container">
+{% block style %}
+<style>
+    /* ----- SERIOUS GOVERNMENT DESCRIPTION STYLE ----- */
+    .desc-container {
+        max-width: 1200px;
+        margin: 2rem auto 3rem;
+        padding: 0 1.5rem;
+    }
+
+    .desc-container h2 {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-weight: 800;
+        font-size: 2.4rem;
+        letter-spacing: 0.08em;
+        color: #1d3a33;
+        text-transform: uppercase;
+        border-bottom: 5px solid #7f6a54;
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.8rem;
+    }
+
+    .desc-container h2 i {
+        color: #7f6a54;
+        margin-right: 10px;
+    }
+
+    /* Property image */
+    .desc-image-wrapper {
+        border: 2px solid #a38973;
+        overflow: hidden;
+        background: #d9d0c0;
+        height: 100%;
+        min-height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .desc-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(0.05);
+        transition: 0.2s;
+    }
+
+    .desc-image-wrapper img:hover {
+        filter: grayscale(0);
+        opacity: 0.95;
+    }
+
+    /* Property info card */
+    .desc-info {
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 1.8rem 2rem;
+        height: 100%;
+        box-shadow: 0 6px 18px rgba(30, 30, 20, 0.06);
+    }
+
+    .desc-info .price {
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        font-size: 2.4rem;
+        color: #1d3a33;
+        margin: 0 0 0.2rem 0;
+        border-bottom: 3px solid #7f6a54;
+        padding-bottom: 0.4rem;
+        display: inline-block;
+    }
+
+    .desc-info .property-type {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #5f7a6b;
+        margin: 0.2rem 0 0.5rem 0;
+    }
+
+    .desc-info .desc-text {
+        font-family: 'Source Serif 4', serif;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: #1f3530;
+        border-top: 1px solid #d6c8b6;
+        padding-top: 0.8rem;
+        margin-top: 0.5rem;
+    }
+
+    .desc-info .location {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #4f3f2e;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin: 0.3rem 0;
+    }
+
+    .desc-info .location i {
+        color: #7f6a54;
+        margin-right: 6px;
+    }
+
+    /* Posted by section */
+    .desc-info .posted-by {
+        border-top: 2px solid #d6c8b6;
+        padding-top: 0.8rem;
+        margin-top: 0.8rem;
+    }
+
+    .desc-info .posted-by .label {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #5f4f3e;
+        display: block;
+        margin-bottom: 0.2rem;
+    }
+
+    .desc-info .posted-by .name {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #1d3a33;
+    }
+
+    .desc-info .posted-by .user-location {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.8rem;
+        color: #4f3f2e;
+        font-weight: 500;
+    }
+
+    .desc-info .meta-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.8rem;
+        color: #4f3f2e;
+        margin-top: 0.4rem;
+        padding-top: 0.4rem;
+        border-top: 1px solid #d6c8b6;
+    }
+
+    .desc-info .meta-info .ad-id {
+        font-weight: 700;
+        color: #1d3a33;
+    }
+
+    .desc-info .meta-info .ad-id u {
+        text-decoration-color: #7f6a54;
+        text-underline-offset: 3px;
+    }
+
+    .desc-info .meta-info .date {
+        font-weight: 600;
+    }
+
+    .desc-info .report-link {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #6d4c41;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: 0.1s;
+        display: inline-block;
+        margin-top: 0.3rem;
+    }
+
+    .desc-info .report-link:hover {
+        border-bottom-color: #6d4c41;
+        color: #4f372f;
+    }
+
+    .desc-info .report-link i {
+        margin-right: 4px;
+    }
+
+    /* Details section */
+    .desc-details {
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 1.8rem 2rem;
+        margin-top: 1.8rem;
+        box-shadow: 0 6px 18px rgba(30, 30, 20, 0.06);
+    }
+
+    .desc-details h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #1d3a33;
+        border-bottom: 3px solid #7f6a54;
+        padding-bottom: 0.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .desc-details h3 i {
+        color: #7f6a54;
+        margin-right: 8px;
+    }
+
+    .desc-details table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .desc-details table td {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        padding: 0.5rem 0.3rem;
+        border-bottom: 1px solid #e3dbcc;
+        color: #1f3530;
+    }
+
+    .desc-details table td:first-child {
+        font-weight: 700;
+        color: #4f3f2e;
+        width: 30%;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.75rem;
+    }
+
+    .desc-details table td:last-child {
+        font-weight: 600;
+        color: #1d3a33;
+    }
+
+    .desc-details table tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Author info */
+    .desc-author {
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 1.8rem 2rem;
+        margin-top: 1.8rem;
+        box-shadow: 0 6px 18px rgba(30, 30, 20, 0.06);
+    }
+
+    .desc-author h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #1d3a33;
+        border-bottom: 3px solid #7f6a54;
+        padding-bottom: 0.4rem;
+        margin-bottom: 1rem;
+    }
+
+    .desc-author h3 i {
+        color: #7f6a54;
+        margin-right: 8px;
+    }
+
+    .desc-author .author-name {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #1d3a33;
+        margin: 0;
+    }
+
+    .desc-author .author-detail {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        color: #2a403a;
+        margin: 0.2rem 0;
+    }
+
+    .desc-author .author-detail i {
+        color: #7f6a54;
+        width: 1.5rem;
+        margin-right: 4px;
+    }
+
+    /* responsive */
+    @media only screen and (max-width: 768px) {
+        .desc-container {
+            padding: 0 0.5rem;
+        }
+
+        .desc-image-wrapper {
+            min-height: 250px;
+            margin-bottom: 1rem;
+        }
+
+        .desc-info {
+            padding: 1.2rem 1.2rem;
+        }
+
+        .desc-info .price {
+            font-size: 1.8rem;
+        }
+
+        .desc-details {
+            padding: 1.2rem;
+        }
+
+        .desc-details table td {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.2rem;
+        }
+
+        .desc-author {
+            padding: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .desc-author .author-name {
+            font-size: 1.2rem;
+        }
+
+        .desc-container h2 {
+            font-size: 1.8rem;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .desc-info .meta-info {
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .desc-details table td:first-child {
+            width: 40%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="w3-container desc-container">
+
+    <h2><i class="fa fa-info-circle"></i>Property Description</h2>
+
+    <!-- ====== MAIN INFO ROW ====== -->
+    <div class="row">
         <div class="col-md-6 col-sm-12">
-           <img src="{{val.img.url}}" width="100%" height="365px;">
-        </div>
-        <div class="col-md-6 col-sm-12 about-text-container">
-             <h3 class="card-title">
-                    <span>
-                        <b>
-                            <h3>₹ {{val.cost}}/-</h3>
-                        </b>
-                    </span>
-                </h3>
-                {%if type == 'Apartment'%}
-                <p>{{val.dimention}} ft. Apartment</p>
-                {%else%}
-                <p>{{val.area}} sqr ft. House</p>
-                {%endif%}
-                <p class="card-text">{{val.desc}}</p>
-                <p>{{val.location}}, {{val.city}}, {{val.state}}</p>
-                <hr>
-                <h5 class="card-title">
-                    <span>
-                        <p>
-                            <b>
-                        <h3>Posted by</h3> </b></p>
-                    </span>
-                </h5>
-                <p>{{user.name}}</p>
-                <p>{{user.location}}, {{user.city}}, {{user.state}}</p>
-                <p style="float: right;"><b>{{val.date}}</b></p>
-                {%if type == 'Apartment'%}
-                <p><b>Ad id <u>{{val.room_id}}</u></b></p>
-                {%else%}
-                <p><b>Ad id <u>{{val.house_id}}</u></b></p>
-                {%endif%}
-                <p style="float: right;"><a href="/contact">report this ad</a></p>
+            <div class="desc-image-wrapper">
+                <img src="{{ val.img.url }}" alt="Property image">
             </div>
         </div>
-    <hr>
-    <div class="row w3-about-container">
-        <div class="col-md-6 col-sm-12 about-text-container">
-            <h3 class="card-title"><b>Details </b></h3>
-                <br>
-                <table style="width: 90%; margin-right: 5%;">
-                    <tr>
-                        <td style="width: 25%; height: 40px;">
-                            Type:
-                        </td>
-                        <td style="width: 30%; height: 40px;">
-                            {{type}}
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            Cost:
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            ₹ {{val.cost}}/-
-                        </td>
-                    </tr>
-                    {%if type == 'House'%}
-                    <tr>
-                        <td style="width: 25%; height: 40px;">
-                            Area:
-                        </td>
-                        <td style="width: 30%; height: 40px;">
-                            {{val.area}} sq ft.
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            Floors:
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            {{val.floor}}
-                        </td>
-                    </tr>
-                    {%endif%}
-                    <tr>
-                        <td style="width: 25%; height: 40px;">
-                            Bedrooms:
-                        </td>
-                        <td style="width: 30%; height: 40px;">
-                            {{val.bedrooms}}
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            Kitchen:
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            {{val.kitchen}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 25%; height: 40px;">
-                            Hall:
-                        </td>
-                        <td style="width: 30%; height: 40px;">
-                            {{val.hall}}
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            Balcony:
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            {{val.balcany}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 25%; height: 40px;">
-                            AC:
-                        </td>
-                        <td style="width: 30%; height: 40px;">
-                            {{val.AC}}
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            Date posted:
-                        </td>
-                        <td style="width: 25%; height: 40px;">
-                            {{val.date}}
-                        </td>
-                    </tr>
-                </table>
-        </div>
         <div class="col-md-6 col-sm-12">
-            <h3 class="card-title"><b>Author's info </b></h3>
-                <p>{{user.name}}</p>
-                <p>{{user.location}}, {{user.city}}, {{user.state}}</p>
-                <p>{{user.email}}</p>
-                <p>Contact no. {{user.number}}</p>
+            <div class="desc-info">
+
+                <!-- Price -->
+                <div class="price">Ksh {{ val.cost }} /-</div>
+
+                <!-- Property type -->
+                <p class="property-type">
+                    <i class="fa {% if type == 'Apartment' %}fa-building{% else %}fa-home{% endif %}"></i>
+                    {% if type == 'Apartment' %}
+                        {{ val.dimention }} ft. Apartment
+                    {% else %}
+                        {{ val.area }} sq ft. House
+                    {% endif %}
+                </p>
+
+                <!-- Description -->
+                <p class="desc-text">{{ val.desc }}</p>
+
+                <!-- Location -->
+                <p class="location"><i class="fa fa-map-pin"></i> {{ val.location }}, {{ val.city }}, {{ val.state }}</p>
+
+                <!-- Posted by -->
+                <div class="posted-by">
+                    <span class="label"><i class="fa fa-user"></i> Posted by</span>
+                    <div class="name">{{ user.name }}</div>
+                    <div class="user-location">
+                        <i class="fa fa-map-marker" style="color: #7f6a54;"></i>
+                        {{ user.location }}, {{ user.city }}, {{ user.state }}
+                    </div>
+                </div>
+
+                <!-- Meta info -->
+                <div class="meta-info">
+                    <span class="ad-id">
+                        Ad ID: <u>{% if type == 'Apartment' %}{{ val.room_id }}{% else %}{{ val.house_id }}{% endif %}</u>
+                    </span>
+                    <span class="date"><i class="fa fa-calendar"></i> {{ val.date }}</span>
+                </div>
+
+                <!-- Report link -->
+                <a href="/contact" class="report-link">
+                    <i class="fa fa-flag"></i> Report this ad
+                </a>
+
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- ====== DETAILS SECTION ====== -->
+    <div class="desc-details">
+        <h3><i class="fa fa-list-ul"></i>Property Details</h3>
+        <table>
+            <tr>
+                <td>Type</td>
+                <td>{{ type }}</td>
+                <td>Cost</td>
+                <td>Ksh {{ val.cost }} /-</td>
+            </tr>
+            {% if type == 'House' %}
+            <tr>
+                <td>Area</td>
+                <td>{{ val.area }} sq ft</td>
+                <td>Floors</td>
+                <td>{{ val.floor }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td>Bedrooms</td>
+                <td>{{ val.bedrooms }}</td>
+                <td>Kitchen</td>
+                <td>{{ val.kitchen }}</td>
+            </tr>
+            <tr>
+                <td>Hall</td>
+                <td>{{ val.hall }}</td>
+                <td>Balcony</td>
+                <td>{{ val.balcany }}</td>
+            </tr>
+            <tr>
+                <td>AC Available</td>
+                <td>{{ val.AC }}</td>
+                <td>Date Posted</td>
+                <td>{{ val.date }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ====== AUTHOR INFO ====== -->
+    <div class="desc-author">
+        <h3><i class="fa fa-user-circle"></i>Author Information</h3>
+        <p class="author-name">{{ user.name }}</p>
+        <p class="author-detail"><i class="fa fa-map-marker"></i> {{ user.location }}, {{ user.city }}, {{ user.state }}</p>
+        <p class="author-detail"><i class="fa fa-envelope"></i> {{ user.email }}</p>
+        <p class="author-detail"><i class="fa fa-phone"></i> Contact: {{ user.number }}</p>
+    </div>
+
 </div>
 {% endblock %}

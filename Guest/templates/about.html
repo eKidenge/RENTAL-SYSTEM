@@ -1,56 +1,360 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block style %}
 <style>
+    /* ----- SERIOUS GOVERNMENT ABOUT STYLE ----- */
     .w3-about-container {
-        margin-top:1%; 
-        margin-left: 5%; 
-        margin-right: 5%; 
-        margin-bottom: 1%;
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        padding: 0 1.5rem;
+    }
+
+    /* Jumbotron – official seal */
+    .jumbotron-about {
+        background: #d9d0c0;
+        padding: 2.5rem 1rem 2rem;
+        border-bottom: 7px solid #7f6a54;
+        margin-bottom: 2.5rem;
+        border-radius: 0;
+        text-align: center;
+    }
+
+    .jumbotron-about h1 {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-size: 3.6rem;
+        font-weight: 800;
+        letter-spacing: 0.18rem;
+        color: #1a332c;
+        text-transform: uppercase;
+        border-bottom: none;
+        margin-bottom: 0.3rem;
+    }
+
+    .jumbotron-about p {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 1.15rem;
+        letter-spacing: 0.1em;
+        color: #3d5a4e;
+        text-transform: uppercase;
+        border-bottom: none;
+        margin: 0;
+    }
+
+    .jumbotron-about h1 i {
+        color: #7f6a54;
+        margin-right: 14px;
+    }
+
+    /* Section heading */
+    .section-heading {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-weight: 700;
+        font-size: 2.4rem;
+        letter-spacing: 0.08em;
+        color: #1d3a33;
+        text-align: center;
+        text-transform: uppercase;
+        border-bottom: 5px solid #7f6a54;
+        padding-bottom: 0.6rem;
+        margin-bottom: 2.5rem;
+        display: inline-block;
+    }
+
+    .heading-wrapper {
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    /* About cards */
+    .about-card {
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 2rem 2.2rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: 0.15s ease;
+        box-shadow: 0 6px 18px rgba(30, 30, 20, 0.06);
+    }
+
+    .about-card:hover {
+        box-shadow: 0 12px 30px rgba(30, 40, 30, 0.12);
+        border-color: #6b5b4a;
+        background: #fcfaf5;
+        transform: translateY(-2px);
+    }
+
+    .about-card p {
+        font-family: 'Source Serif 4', 'Georgia', serif;
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #1f3530;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    .about-card p i {
+        color: #5f7a6b;
+        margin-right: 8px;
+    }
+
+    .about-card .highlight {
+        color: #1d3a33;
+        font-weight: 700;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .about-image {
+        border: 2px solid #a38973;
+        overflow: hidden;
+        transition: 0.15s ease;
+        height: 100%;
+        min-height: 280px;
+        background: #d9d0c0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .about-image:hover {
+        border-color: #6b5b4a;
+        box-shadow: 0 6px 18px rgba(30, 30, 20, 0.08);
+    }
+
+    .about-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(0.08);
+        transition: 0.2s;
+    }
+
+    .about-image img:hover {
+        filter: grayscale(0);
+        opacity: 0.95;
+    }
+
+    .about-image-placeholder {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #5f4f3e;
+        font-size: 1.2rem;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .about-image-placeholder i {
+        font-size: 3rem;
+        color: #7f6a54;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .row-about {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.8rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .row-about .col-about {
+        flex: 1 1 calc(50% - 0.9rem);
+        min-width: 280px;
+    }
+
+    /* Mission section */
+    .mission-section {
+        background: #d9d0c0;
+        border-top: 7px solid #7f6a54;
+        border-bottom: 7px solid #7f6a54;
+        padding: 2.5rem 2rem;
+        margin: 2.5rem 0;
+        text-align: center;
+    }
+
+    .mission-section h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        font-size: 2rem;
+        letter-spacing: 0.08em;
+        color: #1a332c;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+
+    .mission-section p {
+        font-family: 'Source Serif 4', serif;
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        color: #1f3530;
+        line-height: 1.8;
+    }
+
+    .mission-section .stat-grid {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .mission-section .stat-item {
+        font-family: 'Inter', sans-serif;
+        text-align: center;
+    }
+
+    .mission-section .stat-item .number {
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        font-size: 2.8rem;
+        color: #1d3a33;
+        display: block;
+    }
+
+    .mission-section .stat-item .label {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.75rem;
+        color: #4f3f2e;
+    }
+
+    /* responsive */
+    @media only screen and (max-width: 768px) {
+        .row-about .col-about {
+            flex: 1 1 100%;
+        }
+
+        .jumbotron-about h1 {
+            font-size: 2.4rem;
+        }
+
+        .jumbotron-about p {
+            font-size: 0.95rem;
+        }
+
+        .about-card p {
+            font-size: 1rem;
+        }
+
+        .section-heading {
+            font-size: 1.8rem;
+        }
+
+        .mission-section .stat-grid {
+            gap: 1.5rem;
+        }
+
+        .mission-section .stat-item .number {
+            font-size: 2.2rem;
+        }
     }
 
     @media only screen and (max-width: 600px) {
         .w3-about-container {
-            margin: 0!important;
-            padding: 0!important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
-    }
 
-    .about-text-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: sans-serif;
-        font-size: 160%;
-    }
+        .about-card {
+            padding: 1.5rem;
+        }
 
-    .row {
-        margin-top: 3em!important;
-        margin-bottom: 3em!important;
+        .about-image {
+            min-height: 200px;
+        }
     }
 </style>
 {% endblock %}
 
-{% block body %} 
-<div class="jumbotron text-center">
-    <h1>About Us</h1>
-    <p>Some text about who we are and what we do.</p>
+{% block body %}
+<!-- ====== OFFICIAL JUMBOTRON ====== -->
+<div class="jumbotron-about">
+    <h1><i class="fa fa-university"></i>About Us</h1>
+    <p><i class="fa fa-home" style="color: #7f6a54;"></i> Official housing authority · serving the nation</p>
 </div>
-<h2 class="w3-center">Our Services</h2>
-<div class="row w3-about-container">
-    <div class="col-md-6 col-sm-12">
-        <img src="{% static 'assets/roomvala.jpg'%}" style="width: 100%;height: 100%;">
+
+<div class="w3-about-container">
+
+    <!-- ====== HEADING ====== -->
+    <div class="heading-wrapper">
+        <h2 class="section-heading"><i class="fa fa-cogs" style="color: #7f6a54; margin-right: 10px;"></i>Our Services</h2>
     </div>
-    <div class="col-md-6 col-sm-12 about-text-container">
-        <p>Our work is to provide houses and Rooms to people, who are new to area and need a place to stay.We also contact owners and people in area, who are searching for roommate or paying guests.</p>
+
+    <!-- ====== ROW 1 ====== -->
+    <div class="row-about">
+        <div class="col-about">
+            <div class="about-image">
+                <img src="{% static 'assets/roomvala.jpg' %}" alt="Housing services" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'about-image-placeholder\'><i class=\'fa fa-home\'></i>Room &amp; Housing Services</div>';">
+            </div>
+        </div>
+        <div class="col-about">
+            <div class="about-card">
+                <p>
+                    <i class="fa fa-check-circle"></i>
+                    Our work is to provide <span class="highlight">houses and rooms</span> to people who are new to an area and need a place to stay. We also connect with owners and individuals who are searching for <span class="highlight">roommates or paying guests</span>.
+                </p>
+            </div>
+        </div>
     </div>
-</div>
-<div class="row w3-about-container">
-    <div class="col-md-6 col-sm-12 about-text-container">
-        <p>You can choose rooms from thousands of certified and rated rooms. Our aim is to provide safe and comfortable home.Register as owner or roommate and find a person you want to share the room with.</p>
+
+    <!-- ====== ROW 2 ====== -->
+    <div class="row-about">
+        <div class="col-about">
+            <div class="about-card">
+                <p>
+                    <i class="fa fa-check-circle"></i>
+                    You can choose from <span class="highlight">thousands of certified and rated rooms</span>. Our aim is to provide a <span class="highlight">safe and comfortable home</span>. Register as an owner or roommate and find the perfect person to share your space with.
+                </p>
+            </div>
+        </div>
+        <div class="col-about">
+            <div class="about-image">
+                <img src="{% static 'assets/hand.jpg' %}" alt="Handshake partnership" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'about-image-placeholder\'><i class=\'fa fa-handshake-o\'></i>Trust &amp; Partnership</div>';">
+            </div>
+        </div>
     </div>
-    <div class="col-md-6 col-sm-12">
-        <img src="{% static 'assets/hand.jpg'%}" style="width: 100%;height: 100%;">
+
+    <!-- ====== MISSION SECTION ====== -->
+    <div class="mission-section">
+        <h3><i class="fa fa-flag" style="color: #7f6a54; margin-right: 10px;"></i>Our Mission</h3>
+        <p>
+            To provide <strong>safe, affordable, and verified housing</strong> for every citizen. 
+            We bridge the gap between property owners and tenants, ensuring <strong>transparency, trust, and quality</strong> in every transaction.
+        </p>
+        <div class="stat-grid">
+            <div class="stat-item">
+                <span class="number">500+</span>
+                <span class="label">Verified Properties</span>
+            </div>
+            <div class="stat-item">
+                <span class="number">1,200+</span>
+                <span class="label">Happy Tenants</span>
+            </div>
+            <div class="stat-item">
+                <span class="number">98%</span>
+                <span class="label">Satisfaction Rate</span>
+            </div>
+            <div class="stat-item">
+                <span class="number">24/7</span>
+                <span class="label">Support Available</span>
+            </div>
+        </div>
     </div>
+
+    <!-- ====== FOOTER SEAL ====== -->
+    <div style="text-align: center; margin: 2rem 0 0.5rem; padding-top: 1.5rem; border-top: 3px solid #b7a48b;">
+        <span style="font-family: 'Inter', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.14em; color: #5f4f3e; font-weight: 600;">
+            <i class="fa fa-gavel" style="color: #7f6a54; margin-right: 0.5rem;"></i> 
+            housing authority · est. 2024 · official register
+        </span>
+    </div>
+
 </div>
 {% endblock %}

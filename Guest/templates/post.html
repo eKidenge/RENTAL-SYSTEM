@@ -1,67 +1,371 @@
-{%extends 'base.html' %}
-{%load static%}
-{%block body%}
-<script type="text/javascript">
-    function PreviewImage() 
-    {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
-    
-        oFReader.onload = function (oFREvent) 
-        {
-            document.getElementById("uploadPreview").src = oFREvent.target.result;
-        };
-    };
-    
-</script>
-<div class="w3-container" style="margin-top:1%; margin-left: 10%; margin-right: 10%; margin-bottom: 1%;">
-    <h2 style="text-align: center;"><b>Post ad for Apartment</b></h2>
+{% extends 'base.html' %}
+{% load static %}
 
+{% block style %}
+<style>
+    /* ----- SERIOUS GOVERNMENT POST AD STYLE ----- */
+    .post-container {
+        max-width: 800px;
+        margin: 2rem auto 3rem;
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 2rem 2.5rem 2.5rem;
+        box-shadow: 0 12px 30px rgba(30, 30, 20, 0.10);
+        border-radius: 0;
+    }
 
-     {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success alert-dismissible" role="alert">
-              <strong>{{ message }}</strong> 
+    .post-container h2 {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-weight: 800;
+        font-size: 2.2rem;
+        letter-spacing: 0.08em;
+        color: #1d3a33;
+        text-transform: uppercase;
+        border-bottom: 5px solid #7f6a54;
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.8rem;
+        text-align: center;
+    }
+
+    .post-container h2 i {
+        color: #7f6a54;
+        margin-right: 10px;
+    }
+
+    .post-container .form-group {
+        margin-bottom: 1.1rem;
+    }
+
+    .post-container label {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.75rem;
+        color: #1f3530;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .post-container label i {
+        margin-right: 6px;
+        color: #7f6a54;
+        width: 1.2rem;
+    }
+
+    .post-container input[type="text"],
+    .post-container input[type="number"],
+    .post-container input[type="file"],
+    .post-container textarea,
+    .post-container select {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        background: #fcfaf6;
+        border: 2px solid #84705c;
+        border-radius: 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #1e2b2c;
+        transition: 0.15s;
+        box-sizing: border-box;
+    }
+
+    .post-container input[type="text"]:focus,
+    .post-container input[type="number"]:focus,
+    .post-container textarea:focus,
+    .post-container select:focus {
+        border-color: #5f7a6b;
+        box-shadow: 0 0 0 3px rgba(95, 122, 107, 0.25);
+        background: #ffffff;
+        outline: none;
+    }
+
+    .post-container textarea {
+        min-height: 100px;
+        resize: vertical;
+        font-family: 'Source Serif 4', serif;
+    }
+
+    .post-container .file-upload-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        border: 2px dashed #84705c;
+        padding: 1rem;
+        background: #fcfaf6;
+        margin-top: 0.2rem;
+    }
+
+    .post-container .file-upload-wrapper input[type="file"] {
+        border: none;
+        padding: 0.3rem 0;
+        background: transparent;
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .post-container .file-upload-wrapper #uploadPreview {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border: 2px solid #a38973;
+        background: #fff;
+    }
+
+    .post-container .btn-post {
+        background: #2d4f47 !important;
+        border: 2px solid #1e3a32 !important;
+        border-radius: 0 !important;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #fcf8f0;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        width: 100%;
+        transition: 0.15s;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+
+    .post-container .btn-post:hover {
+        background: #1a3d35 !important;
+        border-color: #0f2b24 !important;
+        box-shadow: 0 3px 10px rgba(30, 50, 40, 0.25);
+    }
+
+    .post-container .btn-post i {
+        margin-right: 8px;
+    }
+
+    .post-container .btn-switch {
+        background: #5f7a6b !important;
+        border: 2px solid #3d5a4e !important;
+        border-radius: 0 !important;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #fcf9f2;
+        padding: 0.4rem 1.5rem;
+        font-size: 0.75rem;
+        transition: 0.1s;
+        float: right;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+    }
+
+    .post-container .btn-switch:hover {
+        background: #3d5a4e !important;
+        border-color: #1f3a32 !important;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(30, 50, 40, 0.2);
+    }
+
+    .post-container .btn-switch i {
+        margin-right: 6px;
+    }
+
+    .post-container .msg-box {
+        background: #dce8e0;
+        border-left: 6px solid #3d5a4e;
+        padding: 0.7rem 1.2rem;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #1a332c;
+        margin-bottom: 1.2rem;
+        border-radius: 0;
+    }
+
+    .post-container .msg-box i {
+        margin-right: 8px;
+        color: #3d5a4e;
+    }
+
+    .post-container .row-duo {
+        display: flex;
+        gap: 1.2rem;
+    }
+
+    .post-container .row-duo .form-group {
+        flex: 1;
+    }
+
+    .post-container .helper-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.7rem;
+        color: #5f4f3e;
+        margin-top: 0.2rem;
+        font-weight: 500;
+    }
+
+    /* responsive */
+    @media only screen and (max-width: 600px) {
+        .post-container {
+            margin: 1rem 0.5rem;
+            padding: 1.5rem 1.2rem;
+        }
+
+        .post-container h2 {
+            font-size: 1.6rem;
+        }
+
+        .post-container .row-duo {
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .post-container .btn-switch {
+            float: none;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .post-container .file-upload-wrapper {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .post-container .file-upload-wrapper #uploadPreview {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block button %}
+<a class="btn btn-outline-success" href="/login" style="color: white; border: 2px solid #7f6a54; border-radius: 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.35rem 1.4rem; font-size: 0.75rem;">
+    <strong>Login</strong>
+</a>
+<a class="btn btn-success" href="/register" style="border-radius: 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.35rem 1.4rem; font-size: 0.75rem;">
+    <strong>Sign Up</strong>
+</a>
+{% endblock %}
+
+{% block body %}
+<div class="w3-container">
+    <div class="post-container">
+
+        <h2><i class="fa fa-plus-circle"></i>Post Ad for Apartment</h2>
+
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+            <div class="msg-box">
+                <i class="fa fa-check-circle"></i> {{ message }}
             </div>
-        {% endfor %}
-    {% endif %}
+            {% endfor %}
+        {% endif %}
 
+        <!-- Switch to House -->
+        <a href="/posth/">
+            <button type="button" class="btn-switch"><i class="fa fa-home"></i> Post House Ad</button>
+        </a>
+        <div style="clear: both;"></div>
 
-
-    <a href="/posth/"><button style="float: right;" type="submit" class="btn btn-success btn-sm">Post ad for House</button></a>
-    <br>
-    <div id = "id1">
+        <!-- Form -->
         <form action="/post/" method="post" enctype="multipart/form-data">
-            <div class="container">
-                {% csrf_token %}
-                <label for="name"><b>Location</b></label>
-                <input type="text" placeholder="Amalbagh" name="location" required>
-                <label for="email"><b>City</b></label>
-                <input type="text" placeholder="Lucknow" name="city" required>
-                <label for="location"><b>State</b></label>
-                <input type="text" placeholder="Uttar pradesh" name="state" required>
-                <label for="name"><b>Dimention</b></label>
-                <input type="text" placeholder="ex - 10 x 12 ft" name="dimention" required>
-                <label for="Phone"><b>Cost</b></label>
-                <input style="width: 100%; height: 50px;margin-bottom: 10px;" type="number" placeholder="cost in rupee" name="cost" required>
-                <label for="name"><b>Hall</b></label>
-                <input type="text" placeholder="Yes/No" name="hall" required>
-                <label for="email"><b>Kitchen</b></label>
-                <input type="text" placeholder="Yes/No" name="kitchen" required>
-                <label for="location"><b>Balcany</b></label>
-                <input type="text" placeholder="Yes/No" name="balcany" required>
-                <label for="Phone"><b>Bedrooms</b></label>
-                <input style="width: 100%; height: 50px;margin-bottom: 10px;" type="number"  placeholder="enter number of bedroom" name="bedroom" required>
-                <label for="pass"><b>AC</b></label>
-                <input type="text" placeholder="Yes/No" name="AC">
-                <label for= "comment"><b>Description</b></label><br>
-                <textarea style="width: 100%" name="desc" ></textarea> <br>
-                <label for="image"><b>Upload Picture</b></label><br>
-                <input id="uploadImage" type="file" name="img" onchange="PreviewImage();" />
-                <img name="img" id="uploadPreview" style="width: 100px; height: 100px;" />
-                <button class="btn btn-primary btn-block" type="submit">Post</button>
+            {% csrf_token %}
+
+            <div class="row-duo">
+                <div class="form-group">
+                    <label for="location"><i class="fa fa-map-pin"></i>Location</label>
+                    <input type="text" id="location" placeholder="e.g. Alambagh" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="city"><i class="fa fa-building"></i>City</label>
+                    <input type="text" id="city" placeholder="e.g. Lucknow" name="city" required>
+                </div>
             </div>
+
+            <div class="form-group">
+                <label for="state"><i class="fa fa-flag"></i>State</label>
+                <input type="text" id="state" placeholder="e.g. Uttar Pradesh" name="state" required>
+            </div>
+
+            <div class="row-duo">
+                <div class="form-group">
+                    <label for="dimention"><i class="fa fa-arrows-alt"></i>Dimension</label>
+                    <input type="text" id="dimention" placeholder="ex - 10 x 12 ft" name="dimention" required>
+                </div>
+                <div class="form-group">
+                    <label for="cost"><i class="fa fa-money"></i>Cost (Ksh)</label>
+                    <input type="number" id="cost" placeholder="Enter cost in Ksh" name="cost" required>
+                </div>
+            </div>
+
+            <div class="row-duo">
+                <div class="form-group">
+                    <label for="hall"><i class="fa fa-door-open"></i>Hall</label>
+                    <input type="text" id="hall" placeholder="Yes/No" name="hall" required>
+                </div>
+                <div class="form-group">
+                    <label for="kitchen"><i class="fa fa-cutlery"></i>Kitchen</label>
+                    <input type="text" id="kitchen" placeholder="Yes/No" name="kitchen" required>
+                </div>
+            </div>
+
+            <div class="row-duo">
+                <div class="form-group">
+                    <label for="balcany"><i class="fa fa-sun-o"></i>Balcony</label>
+                    <input type="text" id="balcany" placeholder="Yes/No" name="balcany" required>
+                </div>
+                <div class="form-group">
+                    <label for="bedroom"><i class="fa fa-bed"></i>Bedrooms</label>
+                    <input type="number" id="bedroom" placeholder="Number of bedrooms" name="bedroom" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="ac"><i class="fa fa-snowflake-o"></i>AC Available</label>
+                <input type="text" id="ac" placeholder="Yes/No" name="AC">
+            </div>
+
+            <div class="form-group">
+                <label for="desc"><i class="fa fa-comment"></i>Description</label>
+                <textarea id="desc" placeholder="Describe your property in detail..." name="desc"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fa fa-image"></i>Upload Picture</label>
+                <div class="file-upload-wrapper">
+                    <input id="uploadImage" type="file" name="img" onchange="PreviewImage();" accept="image/*">
+                    <img name="img" id="uploadPreview" src="#" alt="Preview" style="display: none;" />
+                </div>
+                <span class="helper-text">Accepted formats: JPG, PNG, GIF (Max 5MB)</span>
+            </div>
+
+            <button class="btn-post" type="submit">
+                <i class="fa fa-paper-plane"></i> Post Apartment Ad
+            </button>
         </form>
+
     </div>
 </div>
-{%endblock%}
+
+<script type="text/javascript">
+    function PreviewImage() {
+        var oFReader = new FileReader();
+        var file = document.getElementById("uploadImage").files[0];
+        if (file) {
+            oFReader.readAsDataURL(file);
+            oFReader.onload = function(oFREvent) {
+                var preview = document.getElementById("uploadPreview");
+                preview.src = oFREvent.target.result;
+                preview.style.display = "block";
+                preview.style.width = "100px";
+                preview.style.height = "100px";
+                preview.style.objectFit = "cover";
+                preview.style.border = "2px solid #a38973";
+                preview.style.background = "#fff";
+            };
+        }
+    }
+</script>
+{% endblock %}

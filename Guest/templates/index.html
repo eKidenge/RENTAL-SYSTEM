@@ -1,103 +1,887 @@
-{% extends 'base.html' %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Housing Authority · Official Register</title>
 
-{% block style %}
-<style>
-    .w3-home-container {
-        margin-top: 1%;
-        margin-left: 5%;
-        margin-right: 5%;
-        margin-bottom: 1%;
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%235f7a6b'/%3E%3Ctext x='18' y='68' font-family='Georgia' font-size='52' fill='%23f2efe8' font-weight='bold'%3EH%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+
+  <!-- Government style fonts + housing authority colours -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       SERIOUS GOVERNMENT TONE • HOUSING COLOURS
+       ============================================================ */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
+    body {
+      background: #eae7df;
+      font-family: 'Source Serif 4', 'Georgia', serif;
+      color: #1a2a28;
+      line-height: 1.6;
+    }
+
+    /* ----- NAVIGATION – BOLD, ALL CAPS, HAMBURGER READY ----- */
+    .navbar {
+      background: #1a2f2a !important;
+      border-bottom: 5px solid #7f6a54;
+      padding: 0.2rem 1.2rem;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      min-height: 4.2rem;
+    }
+
+    .navbar .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      color: #f2efe8 !important;
+      padding: 0.2rem 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar .navbar-brand img {
+      height: 2.8rem;
+      width: auto;
+      filter: brightness(1.1);
+      margin-right: 0.8rem;
+    }
+
+    .navbar .navbar-nav .nav-link {
+      color: #d6cdbc !important;
+      font-weight: 700;
+      padding: 0.7rem 1.2rem !important;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      transition: 0.15s;
+      border-bottom: 3px solid transparent;
+      text-transform: uppercase;
+    }
+
+    .navbar .navbar-nav .nav-link:hover {
+      color: #f5efe4 !important;
+      border-bottom-color: #b89b7a;
+      background: rgba(255, 255, 240, 0.04);
+    }
+
+    .navbar .navbar-nav .nav-item.active .nav-link {
+      color: #fcf9f2 !important;
+      border-bottom-color: #b89b7a;
+      background: rgba(127, 106, 84, 0.18);
+      font-weight: 800;
+    }
+
+    .navbar .btn-outline-success {
+      border: 2px solid #7f6a54 !important;
+      color: #fcf9f2 !important;
+      font-weight: 700;
+      padding: 0.35rem 1.4rem;
+      border-radius: 0;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      transition: 0.15s;
+    }
+
+    .navbar .btn-outline-success:hover {
+      background: #7f6a54 !important;
+      color: #fcf9f2 !important;
+      border-color: #9a846e !important;
+    }
+
+    .navbar .btn-danger {
+      background: #6d4c41 !important;
+      border: 2px solid #5a3e35 !important;
+      border-radius: 0;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 1.4rem;
+      font-size: 0.75rem;
+    }
+
+    .navbar .btn-danger:hover {
+      background: #4f372f !important;
+      border-color: #3d2a24 !important;
+    }
+
+    .navbar .btn-success {
+      background: #3d5a4e !important;
+      border: 2px solid #2d473d !important;
+      border-radius: 0;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 1.4rem;
+      font-size: 0.75rem;
+    }
+
+    .navbar .btn-success:hover {
+      background: #2d473d !important;
+      border-color: #1f332b !important;
+    }
+
+    .navbar .d-flex {
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .navbar-toggler {
+      border: 2px solid #7f6a54 !important;
+      border-radius: 0;
+      padding: 0.4rem 0.6rem;
+    }
+
+    .navbar-toggler-icon {
+      filter: invert(0.85) sepia(0.1) saturate(0.3);
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+
+    /* ----- MAIN CONTAINER ----- */
+    .w3-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.5rem 1.5rem 2rem;
+    }
+
+    /* ----- HEADINGS – BOLD GOVERNMENT SERIF ----- */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: #1e3a32;
+    }
+
+    h1 {
+      font-size: 3rem;
+      border-bottom: 6px solid #7f6a54;
+      padding-bottom: 0.25rem;
+      margin-bottom: 0.3rem;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      color: #1d3a33;
+    }
+
+    .jumbotron p {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #3d5a4e;
+      margin-top: -0.1rem;
+      border-bottom: 3px solid #b89b7a;
+      display: inline-block;
+      padding-bottom: 0.3rem;
+      font-size: 1.1rem;
+    }
+
+    h5 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: #1f3f38;
+      border-left: 10px solid #7f6a54;
+      padding-left: 1.2rem;
+      margin: 1.8rem 0 1.2rem;
+      font-size: 1.7rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ----- JUMBOTRON – OFFICIAL SEAL ----- */
+    .jumbotron {
+      background: #d9d0c0;
+      padding: 1.8rem 1rem 1.2rem;
+      border-bottom: 7px solid #7f6a54;
+      margin-bottom: 0.8rem;
+      border-radius: 0;
+    }
+
+    .jumbotron h1 {
+      font-size: 3.6rem;
+      border-bottom: none;
+      display: block;
+      text-align: center;
+      color: #1a332c;
+      letter-spacing: 0.18rem;
+      font-weight: 800;
+    }
+
+    .jumbotron p {
+      font-size: 1.15rem;
+      color: #2f4d40;
+      border-bottom: none;
+      display: block;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    /* ----- CARDS – SERIOUS, BOLD ----- */
+    .card {
+      background: #f7f4ed !important;
+      border: 2px solid #a38973;
+      border-radius: 0.25rem;
+      box-shadow: 0 6px 18px rgba(30, 30, 20, 0.06);
+      transition: 0.15s ease;
+      height: 100%;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 30px rgba(30, 40, 30, 0.15);
+      border-color: #6b5b4a;
+      background: #fcfaf5 !important;
+      transform: translateY(-2px);
+    }
+
+    .card-body {
+      padding: 1rem 1.2rem 0.8rem;
+    }
+
+    .card-title h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800;
+      color: #1d3a30;
+      margin: 0;
+      font-size: 1.9rem;
+      letter-spacing: 0.03em;
+    }
+
+    .card-text {
+      font-family: 'Source Serif 4', serif;
+      font-size: 1rem;
+      color: #2a403a;
+      font-weight: 500;
+    }
+
+    .card-location {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #4f3f2e;
+      border-top: 2px solid #d6c8b6;
+      padding-top: 0.6rem;
+      margin-top: 0.6rem;
+      font-weight: 600;
+    }
+
+    .card-location i {
+      color: #7f6a54;
+      margin-right: 6px;
+    }
+
+    /* ----- QUICK VIEW – BOLD GOVERNMENT BUTTON ----- */
+    .btn-quick {
+      background: #5f7a6b !important;
+      border: 2px solid #3d5a4e !important;
+      border-radius: 0 !important;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #fcf9f2;
+      padding: 0.4rem 1.4rem;
+      font-size: 0.75rem;
+      transition: 0.1s;
+    }
+
+    .btn-quick:hover {
+      background: #3d5a4e !important;
+      border-color: #1f3a32 !important;
+      color: #fff;
+      box-shadow: 0 3px 8px rgba(30, 50, 40, 0.25);
+    }
+
+    .btn-quick i {
+      margin-right: 5px;
+    }
+
+    /* ----- IMAGE HOVER ----- */
+    .w3-hover-opacity {
+      transition: 0.2s;
+      filter: grayscale(0.05);
+    }
+
+    .w3-hover-opacity:hover {
+      filter: grayscale(0);
+      opacity: 0.92;
+    }
+
+    /* ----- CAROUSEL ----- */
+    .w3-row-padding {
+      padding: 0.2rem 0 1rem;
+    }
+
+    .w3-third {
+      padding: 0.5rem 0.7rem;
+    }
+
+    .carousel-inner.no-padding {
+      padding: 0.2rem 0;
+    }
+
+    /* ----- PAGINATION – BOLD ----- */
+    .pagination-gov {
+      margin: 1.2rem 0 0.2rem;
+      text-align: center;
+    }
+
+    .pagination-gov a,
+    .pagination-gov span {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      color: #1f3a32;
+      text-decoration: none;
+      padding: 0.3rem 1.4rem;
+      border: 2px solid #b7a48b;
+      display: inline-block;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      transition: 0.1s;
+    }
+
+    .pagination-gov .active-page {
+      background: #dbd2c2;
+      border-color: #a38973;
+      font-weight: 800;
+    }
+
+    .pagination-gov a:hover {
+      background: #cabbab;
+      color: #0f1f1b;
+      border-color: #8f7a64;
+    }
+
+    .pagination-gov .dots {
+      border: none;
+      color: #3d554b;
+      padding: 0.3rem 0.6rem;
+      font-weight: 600;
+    }
+
+    /* ----- FOOTER SEAL ----- */
+    .gov-seal {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #5f4f3e;
+      border-top: 3px solid #b7a48b;
+      padding-top: 1.2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .gov-seal i {
+      color: #7f6a54;
+      margin-right: 0.6rem;
+    }
+
+    /* ----- FOOTER – OFFICIAL ----- */
+    footer {
+      background: #d9d0c0;
+      border-top: 7px solid #7f6a54;
+      margin-top: 2.5rem;
+      padding: 1.8rem 1rem 1rem;
+      font-family: 'Inter', sans-serif;
+      color: #1f332e;
+    }
+
+    footer h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      color: #1a332c;
+      border-bottom: 3px solid #b89b7a;
+      padding-bottom: 0.4rem;
+      font-weight: 700;
+    }
+
+    footer .w3-tag {
+      background: #5f7a6b !important;
+      color: #f2efe8 !important;
+      border-radius: 0;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.8rem;
+      margin: 0.15rem;
+    }
+
+    footer .fa {
+      color: #2f4d40;
+      font-size: 1.8rem;
+      margin: 0 0.4rem;
+      transition: 0.15s;
+    }
+
+    footer .fa:hover {
+      color: #1a332c;
+      transform: scale(1.05);
+    }
+
+    footer ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    footer ul li {
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
     @media only screen and (max-width: 600px) {
-        .w3-home-container {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-    }
-</style>
-{% endblock %}
+      .w3-container {
+        padding: 0 0.5rem;
+      }
 
-{% block body %}
-<div>
-    <div class="jumbotron text-center" style="margin-bottom: 0;">
-        <h1>Rental</h1>
-        <p>Live in your dream house</p>
+      .jumbotron h1 {
+        font-size: 2.2rem;
+        letter-spacing: 0.1rem;
+      }
+
+      .jumbotron p {
+        font-size: 0.9rem;
+      }
+
+      .card-title h3 {
+        font-size: 1.4rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h5 {
+        font-size: 1.2rem;
+        padding-left: 0.8rem;
+        border-left-width: 6px;
+      }
+
+      .navbar .navbar-brand {
+        font-size: 1.2rem;
+      }
+
+      .navbar .navbar-brand img {
+        height: 2.2rem;
+      }
+
+      .navbar .navbar-nav .nav-link {
+        padding: 0.5rem 0.8rem !important;
+        font-size: 0.75rem;
+      }
+
+      .pagination-gov a,
+      .pagination-gov span {
+        padding: 0.2rem 1rem;
+        font-size: 0.8rem;
+      }
+
+      .btn-quick {
+        font-size: 0.65rem;
+        padding: 0.3rem 1rem;
+      }
+
+      .gov-seal {
+        font-size: 0.6rem;
+      }
+
+      footer h3 {
+        font-size: 1rem;
+      }
+
+      footer .fa {
+        font-size: 1.4rem;
+        margin: 0 0.2rem;
+      }
+
+      .navbar .d-flex {
+        gap: 0.4rem;
+      }
+
+      .navbar .btn-outline-success,
+      .navbar .btn-danger,
+      .navbar .btn-success {
+        font-size: 0.65rem;
+        padding: 0.25rem 1rem;
+      }
+    }
+
+    @media only screen and (max-width: 400px) {
+      .navbar .navbar-brand {
+        font-size: 1rem;
+      }
+
+      .navbar .navbar-brand img {
+        height: 2rem;
+      }
+
+      .jumbotron h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+  NAVIGATION – BOLD, ALL CAPS, HAMBURGER
+  ============================================================ -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="/">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Crect width='120' height='50' fill='%235f7a6b'/%3E%3Ctext x='8' y='34' font-family='Georgia' font-size='28' fill='%23f2efe8' font-weight='bold'%3EH·A%3C/text%3E%3C/svg%3E" alt="Housing Authority">
+      <span>HOUSING · AUTH</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/index/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/home/">Explore</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact/">Contact us</a>
+        </li>
+      </ul>
+      <div class="d-flex ms-auto">
+        <a class="btn btn-outline-success" href="/login"><strong>Login</strong></a>
+        <a class="btn btn-success" href="/register"><strong>Sign Up</strong></a>
+        <!-- Logged-in state (commented)
+        <a class="btn btn-outline-success" href="/profile"><strong>Profile</strong></a>
+        <form action="/logout" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-danger"><strong>Logout</strong></button>
+        </form>
+        -->
+      </div>
     </div>
-    <div class="w3-container w3-home-container">
-        {% if room %}
-        <h5 class="my-4" style="text-align: center;">Apartment - Recommended for You.</h5>
-        <div class="w3-row-padding">
-            <div class="col carousel slide my-3" data-ride="carousel">
-                <div class="carousel-inner no-padding">
-                    <div class="carousel-item active">
-                        {% for i in room.0 %}
-                        <div class="w3-third w3-container w3-margin-bottom">
-                            <div class="card" style="background-color: #e9ecef;">
-                                <img src='{{ i.img.url }}' class="w3-hover-opacity" style="height: 250px; width: 100%" alt="{{ i.desc|default:'Property image' }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <span id="pricepr{{ i.id }}">
-                                            <b>
-                                                <h3>Ksh {{ i.cost }}</h3>
-                                            </b>
-                                        </span>
-                                    </h5>
-                                    <p class="card-text">{{ i.desc|slice:"0:20" }}...</p>
-                                    <p>{{ i.location }}, {{ i.city }}, {{ i.state }}</p>
-                                    <form action="/descr" style="margin-bottom: 5px;">
-                                        <button class="btn btn-secondary" name="id" value="{{ i.room_id }}">Quick view</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and forloop.counter < room.2 %}
-                    </div>
-                    <div class="carousel-item">
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        {% if house %}
-        <h5 class="my-4" style="text-align: center;">Houses - Recommended for You.</h5>
-        <div class="w3-row-padding">
-            <div class="col carousel slide my-3" data-ride="carousel">
-                <div class="carousel-inner no-padding">
-                    <div class="carousel-item active">
-                        {% for i in house.0 %}
-                        <div class="w3-third w3-container w3-margin-bottom">
-                            <div class="card" style="background-color: #e9ecef;">
-                                <img src='{{ i.img.url }}' class="w3-hover-opacity" style="height: 250px; width: 100%" alt="{{ i.desc|default:'Property image' }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <span id="pricepr{{ i.id }}">
-                                            <b>
-                                                <h3>Ksh {{ i.cost }}</h3>
-                                            </b>
-                                        </span>
-                                    </h5>
-                                    <p class="card-text">{{ i.desc|slice:"0:20" }}...</p>
-                                    <p>{{ i.location }}, {{ i.city }}, {{ i.state }}</p>
-                                    <form action="/descr" style="margin-bottom: 5px;">
-                                        <button class="btn btn-secondary" name="id" value="{{ i.house_id }}">Quick view</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and forloop.counter < house.2 %}
-                    </div>
-                    <div class="carousel-item">
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
+  </nav>
+
+  <!-- ============================================================
+  MAIN CONTENT – SERIOUS HOUSING REGISTER
+  ============================================================ -->
+  <div class="w3-container">
+
+    <!-- OFFICIAL HEADER -->
+    <div class="jumbotron text-center">
+      <h1><i class="fa fa-building" style="color: #3d5a4e; margin-right: 14px;"></i>Rental</h1>
+      <p><i class="fa fa-home" style="color: #7f6a54;"></i> Live in your dream house · official register</p>
     </div>
-</div>
-{% endblock %}
+
+    <!-- HOUSING LISTINGS -->
+    <div class="w3-container w3-home-container" style="margin: 0.5rem 0 0;">
+
+      <!-- ==========================================================
+      APARTMENT SECTION – NUMERIC IDs FIXED
+      ========================================================== -->
+      <h5><i class="fa fa-building" style="color: #5f7a6b; margin-right: 12px;"></i>Apartment – Recommended for You</h5>
+      <div class="w3-row-padding">
+        <div class="col carousel slide my-3" data-ride="carousel">
+          <div class="carousel-inner no-padding">
+            <div class="carousel-item active">
+              <!-- Apartment 1 – ID 1 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/room_id/1.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="Apartment 1">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <span><b><h3>Ksh 42,500</h3></b></span>
+                    </h5>
+                    <p class="card-text"><strong>2 BHK</strong> · modern, security, lift...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Westlands</strong>, Nairobi, KE</p>
+                    <form action="/descr" style="margin-bottom: 5px;">
+                      <button class="btn-quick" name="id" value="1"><i class="fa fa-eye"></i> Quick view</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- Apartment 2 – ID 2 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/room_id/2.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="Apartment 2">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <span><b><h3>Ksh 31,000</h3></b></span>
+                    </h5>
+                    <p class="card-text"><strong>1 BHK</strong> · semi-furnished, quiet...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Kilimani</strong>, Nairobi, KE</p>
+                    <form action="/descr" style="margin-bottom: 5px;">
+                      <button class="btn-quick" name="id" value="2"><i class="fa fa-eye"></i> Quick view</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- Apartment 3 – ID 3 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/room_id/3.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="Apartment 3">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <span><b><h3>Ksh 58,000</h3></b></span>
+                    </h5>
+                    <p class="card-text"><strong>3 BHK</strong> · corner unit, view...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Riverside</strong>, Nairobi, KE</p>
+                    <form action="/descr" style="margin-bottom: 5px;">
+                      <button class="btn-quick" name="id" value="3"><i class="fa fa-eye"></i> Quick view</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Second carousel item -->
+            <div class="carousel-item">
+              <!-- Apartment 4 – ID 4 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/room_id/4.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="Apartment 4">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 89,000</h3></b></h5>
+                    <p class="card-text"><strong>4 BHK</strong> · luxury, panoramic...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Upper Hill</strong>, Nairobi, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="4"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+              <!-- Apartment 5 – ID 5 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/room_id/5.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="Apartment 5">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 26,500</h3></b></h5>
+                    <p class="card-text"><strong>studio</strong> · fully serviced...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Parklands</strong>, Nairobi, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="5"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+              <!-- Apartment 6 – ID 6 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/room_id/6.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="Apartment 6">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 37,200</h3></b></h5>
+                    <p class="card-text"><strong>2 BHK</strong> · garden, parking...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Lavington</strong>, Nairobi, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="6"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination-gov">
+            <span class="active-page">1</span>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <span class="dots">…</span>
+            <a href="#">5</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================================
+      HOUSES SECTION – NUMERIC IDs FIXED
+      ========================================================== -->
+      <h5 style="margin-top: 2.2rem;"><i class="fa fa-home" style="color: #5f7a6b; margin-right: 12px;"></i>Houses – Recommended for You</h5>
+      <div class="w3-row-padding">
+        <div class="col carousel slide my-3" data-ride="carousel">
+          <div class="carousel-inner no-padding">
+            <div class="carousel-item active">
+              <!-- House 1 – ID 7 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/house_id/7.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="House 7">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 120,000</h3></b></h5>
+                    <p class="card-text"><strong>4 BHK</strong> · bungalow, large plot...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Karen</strong>, Nairobi, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="7"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+              <!-- House 2 – ID 8 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/house_id/8.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="House 8">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 87,500</h3></b></h5>
+                    <p class="card-text"><strong>3 BHK</strong> · gated community...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Runda</strong>, Nairobi, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="8"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+              <!-- House 3 – ID 9 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/house_id/9.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="House 9">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 65,000</h3></b></h5>
+                    <p class="card-text"><strong>2 BHK</strong> · garden, parking...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Langata</strong>, Nairobi, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="9"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Second carousel item -->
+            <div class="carousel-item">
+              <!-- House 4 – ID 10 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/house_id/7.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="House 10">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 155,000</h3></b></h5>
+                    <p class="card-text"><strong>5 BHK</strong> · acre plot, views...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Thika</strong>, Kiambu, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="10"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+              <!-- House 5 – ID 11 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/house_id/8.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="House 11">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 210,000</h3></b></h5>
+                    <p class="card-text"><strong>6 BHK</strong> · pool, large garden...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Muthaiga</strong>, Nairobi, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="11"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+              <!-- House 6 – ID 12 -->
+              <div class="w3-third w3-container w3-margin-bottom">
+                <div class="card">
+                  <img src="/media/house_id/9.jfif" class="w3-hover-opacity" style="height: 250px; width: 100%; object-fit: cover;" alt="House 12">
+                  <div class="card-body">
+                    <h5 class="card-title"><b><h3>Ksh 94,000</h3></b></h5>
+                    <p class="card-text"><strong>3 BHK</strong> · courtyard, secure...</p>
+                    <p class="card-location"><i class="fa fa-map-pin"></i> <strong>Syokimau</strong>, Machakos, KE</p>
+                    <form action="/descr"><button class="btn-quick" name="id" value="12"><i class="fa fa-eye"></i> Quick view</button></form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination-gov">
+            <span class="active-page">1</span>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <span class="dots">…</span>
+            <a href="#">6</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Official footer seal -->
+      <div class="gov-seal">
+        <i class="fa fa-gavel"></i> housing authority · register of properties
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+  FOOTER – OFFICIAL
+  ============================================================ -->
+  <footer class="col-md-12 col-sm-12">
+    <div class="w3-row-padding">
+      <div class="w3-third">
+        <h3><i class="fa fa-map-marker" style="color: #5f7a6b;"></i> Popular locations</h3>
+        <ul>
+          <li><strong>Nairobi</strong></li>
+          <li><strong>Mombasa</strong></li>
+          <li><strong>Nakuru</strong></li>
+        </ul>
+      </div>
+      <div class="w3-third">
+        <h3><i class="fa fa-trend-up" style="color: #5f7a6b;"></i> Trending locations</h3>
+        <ul>
+          <li><strong>Nairobi</strong></li>
+          <li><strong>Kisumu</strong></li>
+          <li><strong>Mombasa</strong></li>
+        </ul>
+      </div>
+      <div class="w3-third">
+        <h3><i class="fa fa-tags" style="color: #5f7a6b;"></i> POPULAR TAGS</h3>
+        <p>
+          <span class="w3-tag w3-grey w3-small">Nairobi</span>
+          <span class="w3-tag w3-grey w3-small">Mombasa</span>
+          <span class="w3-tag w3-grey w3-small">Kisumu</span>
+          <span class="w3-tag w3-grey w3-small">Nakuru</span>
+          <span class="w3-tag w3-grey w3-small">Naivasha</span>
+          <span class="w3-tag w3-grey w3-small">Eldoret</span>
+          <span class="w3-tag w3-grey w3-small">Kakamega</span>
+          <span class="w3-tag w3-grey w3-small">Non AC</span>
+          <span class="w3-tag w3-grey w3-small">Family</span>
+          <span class="w3-tag w3-grey w3-small">AC</span>
+          <span class="w3-tag w3-grey w3-small">Flat</span>
+          <span class="w3-tag w3-grey w3-small">Near me</span>
+          <span class="w3-tag w3-grey w3-small">House</span>
+          <span class="w3-tag w3-grey w3-small">Room</span>
+          <span class="w3-tag w3-grey w3-small">Clean</span>
+        </p>
+      </div>
+    </div>
+    <div class="w3-panel w3-large" style="margin: 0.5rem 0 0; text-align: center;">
+      <i class="fa fa-facebook-official w3-hover-opacity"></i>
+      <i class="fa fa-instagram w3-hover-opacity"></i>
+      <i class="fa fa-snapchat w3-hover-opacity"></i>
+      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+      <i class="fa fa-twitter w3-hover-opacity"></i>
+      <i class="fa fa-linkedin w3-hover-opacity"></i>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Active nav item
+    document.addEventListener('DOMContentLoaded', function() {
+      const navItems = document.querySelectorAll('.nav-item');
+      const currentPath = window.location.pathname;
+      navItems.forEach(item => {
+        const link = item.querySelector('.nav-link');
+        if (link && link.pathname === currentPath) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

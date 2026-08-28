@@ -1,160 +1,362 @@
-{% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        {% block head %}
-        <title>
-            Rental
-            {% block title %}
-            {% endblock %}
-        </title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Housing Authority · Official Register</title>
 
-        <link rel="icon" href="{% static 'assets/logo.png' %}" type="image/jpg">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%235f7a6b'/%3E%3Ctext x='18' y='68' font-family='Georgia' font-size='52' fill='%23f2efe8' font-weight='bold'%3EH%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 
-        {% block style %}
-        {% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {%block nav%}
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a href="/">
-                <img src="{% static '/assets/logo.png' %}" style="width: 8em;">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button> 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 2em;">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/index/">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/home/">Explore</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">About us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact/">Contact us</a>
-                    </li>
-                </ul>
-                {%endblock%}
+    <!-- Government fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           SERIOUS GOVERNMENT TONE • HOUSING COLOURS
+           ============================================================ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #eae7df;
+            font-family: 'Source Serif 4', 'Georgia', serif;
+            color: #1a2a28;
+            line-height: 1.6;
+        }
+
+        /* ----- NAVIGATION – BOLD, ALL CAPS, HAMBURGER READY ----- */
+        .navbar {
+            background: #1a2f2a !important;
+            border-bottom: 5px solid #7f6a54;
+            padding: 0.2rem 1.2rem;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            min-height: 4.2rem;
+        }
+
+        .navbar .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            letter-spacing: 0.12em;
+            color: #f2efe8 !important;
+            padding: 0.2rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .navbar-brand img {
+            height: 2.8rem;
+            width: auto;
+            filter: brightness(1.1);
+            margin-right: 0.8rem;
+        }
+
+        .navbar .navbar-nav .nav-link {
+            color: #d6cdbc !important;
+            font-weight: 700;
+            padding: 0.7rem 1.2rem !important;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            transition: 0.15s;
+            border-bottom: 3px solid transparent;
+            text-transform: uppercase;
+        }
+
+        .navbar .navbar-nav .nav-link:hover {
+            color: #f5efe4 !important;
+            border-bottom-color: #b89b7a;
+            background: rgba(255, 255, 240, 0.04);
+        }
+
+        .navbar .navbar-nav .nav-item.active .nav-link {
+            color: #fcf9f2 !important;
+            border-bottom-color: #b89b7a;
+            background: rgba(127, 106, 84, 0.18);
+            font-weight: 800;
+        }
+
+        /* Auth buttons – bold, serious */
+        .navbar .btn-outline-success {
+            border: 2px solid #7f6a54 !important;
+            color: #fcf9f2 !important;
+            font-weight: 700;
+            padding: 0.35rem 1.4rem;
+            border-radius: 0;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            transition: 0.15s;
+        }
+
+        .navbar .btn-outline-success:hover {
+            background: #7f6a54 !important;
+            color: #fcf9f2 !important;
+            border-color: #9a846e !important;
+        }
+
+        .navbar .btn-danger {
+            background: #6d4c41 !important;
+            border: 2px solid #5a3e35 !important;
+            border-radius: 0;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 0.35rem 1.4rem;
+            font-size: 0.75rem;
+        }
+
+        .navbar .btn-danger:hover {
+            background: #4f372f !important;
+            border-color: #3d2a24 !important;
+        }
+
+        .navbar .btn-success {
+            background: #3d5a4e !important;
+            border: 2px solid #2d473d !important;
+            border-radius: 0;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 0.35rem 1.4rem;
+            font-size: 0.75rem;
+        }
+
+        .navbar .btn-success:hover {
+            background: #2d473d !important;
+            border-color: #1f332b !important;
+        }
+
+        .navbar .d-flex {
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        /* Hamburger toggler – bold */
+        .navbar-toggler {
+            border: 2px solid #7f6a54 !important;
+            border-radius: 0;
+            padding: 0.4rem 0.6rem;
+        }
+
+        .navbar-toggler-icon {
+            filter: invert(0.85) sepia(0.1) saturate(0.3);
+            width: 1.6rem;
+            height: 1.6rem;
+        }
+
+        /* ----- MAIN CONTAINER ----- */
+        .w3-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0.5rem 1.5rem 2rem;
+        }
+
+        /* ----- FOOTER – OFFICIAL ----- */
+        footer {
+            background: #d9d0c0;
+            border-top: 7px solid #7f6a54;
+            margin-top: 2.5rem;
+            padding: 1.8rem 1rem 1rem;
+            font-family: 'Inter', sans-serif;
+            color: #1f332e;
+        }
+
+        footer h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.08em;
+            color: #1a332c;
+            border-bottom: 3px solid #b89b7a;
+            padding-bottom: 0.4rem;
+            font-weight: 700;
+        }
+
+        footer .w3-tag {
+            background: #5f7a6b !important;
+            color: #f2efe8 !important;
+            border-radius: 0;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.8rem;
+            margin: 0.15rem;
+        }
+
+        footer .fa {
+            color: #2f4d40;
+            font-size: 1.8rem;
+            margin: 0 0.4rem;
+            transition: 0.15s;
+        }
+
+        footer .fa:hover {
+            color: #1a332c;
+            transform: scale(1.05);
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer ul li {
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            padding: 0.2rem 0;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media only screen and (max-width: 600px) {
+            .w3-container {
+                padding: 0 0.5rem;
+            }
+
+            .navbar .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .navbar .navbar-brand img {
+                height: 2.2rem;
+            }
+
+            .navbar .navbar-nav .nav-link {
+                padding: 0.5rem 0.8rem !important;
+                font-size: 0.75rem;
+            }
+
+            footer h3 {
+                font-size: 1rem;
+            }
+
+            footer .fa {
+                font-size: 1.4rem;
+                margin: 0 0.2rem;
+            }
+
+            .navbar .d-flex {
+                gap: 0.4rem;
+            }
+
+            .navbar .btn-outline-success,
+            .navbar .btn-danger,
+            .navbar .btn-success {
+                font-size: 0.65rem;
+                padding: 0.25rem 1rem;
+            }
+        }
+
+        @media only screen and (max-width: 400px) {
+            .navbar .navbar-brand {
+                font-size: 1rem;
+            }
+
+            .navbar .navbar-brand img {
+                height: 2rem;
+            }
+        }
+    </style>
+
+    {% block style %}{% endblock %}
+</head>
+<body>
+
+    <!-- ====== NAVIGATION – BOLD, ALL CAPS, HAMBURGER ====== -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="/">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Crect width='120' height='50' fill='%235f7a6b'/%3E%3Ctext x='8' y='34' font-family='Georgia' font-size='28' fill='%23f2efe8' font-weight='bold'%3EH·A%3C/text%3E%3C/svg%3E" alt="Housing Authority">
+            <span>HOUSING · AUTH</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/index/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home/">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact/">Contact us</a>
+                </li>
+            </ul>
+            <div class="d-flex ms-auto">
                 {% block button %}
-                {% if request.user.is_authenticated %}
-                <a class="btn btn-outline-success navbar-profile-btn" href="/profile" style="color: white;"><strong>Profile</strong></a>
-                <form action="/logout" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger navbar-logout-btn" style="margin-left: 1em;"><strong>Logout</strong></button>
-                </form>
-                {% else %}
-                <a class="btn btn-outline-success navbar-login-btn-sm" href="/login" style="color: white;"><strong>Login</strong></a>
-                <a class="btn btn-success navbar-signup-btn-sm" href="/register" style="margin-left: 1em;"><strong>Sign Up</strong></a>
-                {% endif %}
+                <a class="btn btn-outline-success" href="/login"><strong>Login</strong></a>
+                <a class="btn btn-success" href="/register"><strong>Sign Up</strong></a>
                 {% endblock %}
             </div>
-        </nav>
-        <div id="id01" class="modal">
         </div>
-        {%block body%}
-        {%endblock%}
-        <footer class="col-md-12 col-sm-12">
-            <div class="w3-row-padding">
-                <div class="w3-third">
-                    <h3>Popular locations</h3>
-                    <ul class="w3-ul w3-hoverable">
-                        <li class="w3-padding-16">
-                            <span> Nairobi</span><br>
-                            <span> Mombasa</span><br>
-                            <span> Nakuru</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="w3-third">
-                    <h3>Trending locations</h3>
-                    <ul class="w3-ul w3-hoverable">
-                        <li class="w3-padding-16">
-                            <span> Nairobi</span><br>
-                            <span> Kisumu</span><br>
-                            <span> Mombasa</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="w3-third">
-                    <h3>POPULAR TAGS</h3>
-                    <br>
-                    <p>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Nairobi</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Mombasa</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Kisumu</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Nakuru</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Naivasha</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Eldoret</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Kakamega</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Non AC</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Family</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">AC</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Flat</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Near me</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">House</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Room</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Clean</span>
-                        <span class="w3-tag w3-grey w3-small w3-margin-bottom">Room</span>
-                    </p>
-                </div>
+    </nav>
+
+    <!-- ====== MAIN CONTENT ====== -->
+    <div class="w3-container">
+        {% block body %}{% endblock %}
+    </div>
+
+    <!-- ====== FOOTER – OFFICIAL ====== -->
+    <footer class="col-md-12 col-sm-12">
+        <div class="w3-row-padding">
+            <div class="w3-third">
+                <h3><i class="fa fa-map-marker" style="color: #5f7a6b;"></i> Popular locations</h3>
+                <ul>
+                    <li><strong>Nairobi</strong></li>
+                    <li><strong>Mombasa</strong></li>
+                    <li><strong>Nakuru</strong></li>
+                </ul>
             </div>
-            <div class="w3-panel w3-large" style="margin: 0; text-align: center;">
-                <i class="fa fa-facebook-official w3-hover-opacity"></i>
-                <i class="fa fa-instagram w3-hover-opacity"></i>
-                <i class="fa fa-snapchat w3-hover-opacity"></i>
-                <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-                <i class="fa fa-twitter w3-hover-opacity"></i>
-                <i class="fa fa-linkedin w3-hover-opacity"></i>
+            <div class="w3-third">
+                <h3><i class="fa fa-trend-up" style="color: #5f7a6b;"></i> Trending locations</h3>
+                <ul>
+                    <li><strong>Nairobi</strong></li>
+                    <li><strong>Kisumu</strong></li>
+                    <li><strong>Mombasa</strong></li>
+                </ul>
             </div>
-        </footer>
-        {%block footer%}
-        {%endblock%}
+            <div class="w3-third">
+                <h3><i class="fa fa-tags" style="color: #5f7a6b;"></i> POPULAR TAGS</h3>
+                <p>
+                    <span class="w3-tag w3-grey w3-small">Nairobi</span>
+                    <span class="w3-tag w3-grey w3-small">Mombasa</span>
+                    <span class="w3-tag w3-grey w3-small">Kisumu</span>
+                    <span class="w3-tag w3-grey w3-small">Nakuru</span>
+                    <span class="w3-tag w3-grey w3-small">Naivasha</span>
+                    <span class="w3-tag w3-grey w3-small">Eldoret</span>
+                    <span class="w3-tag w3-grey w3-small">Kakamega</span>
+                    <span class="w3-tag w3-grey w3-small">Non AC</span>
+                    <span class="w3-tag w3-grey w3-small">Family</span>
+                    <span class="w3-tag w3-grey w3-small">AC</span>
+                    <span class="w3-tag w3-grey w3-small">Flat</span>
+                    <span class="w3-tag w3-grey w3-small">Near me</span>
+                    <span class="w3-tag w3-grey w3-small">House</span>
+                    <span class="w3-tag w3-grey w3-small">Room</span>
+                    <span class="w3-tag w3-grey w3-small">Clean</span>
+                </p>
+            </div>
+        </div>
+        <div class="w3-panel w3-large" style="margin: 0.5rem 0 0; text-align: center;">
+            <i class="fa fa-facebook-official w3-hover-opacity"></i>
+            <i class="fa fa-instagram w3-hover-opacity"></i>
+            <i class="fa fa-snapchat w3-hover-opacity"></i>
+            <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+            <i class="fa fa-twitter w3-hover-opacity"></i>
+            <i class="fa fa-linkedin w3-hover-opacity"></i>
+        </div>
+    </footer>
 
-        <script>
-            // Get the modal
-            var modal = document.getElementById('id01');
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-
-            nav_items = document.getElementsByClassName("nav-item");
-
-            for(var index=0; index< nav_items.length; index++){
-                nav_items[index].classList.remove("active");
-            }
-
-            for(var index=0; index< nav_items.length; index++){
-                if(nav_items[index].children[0].pathname==window.location.pathname){
-                    nav_items[index].classList.add("active");
-                }
-            }
-
-        </script>
-        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-        {% block script %}
-        {% endblock %}
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    {% block script %}{% endblock %}
+</body>
 </html>

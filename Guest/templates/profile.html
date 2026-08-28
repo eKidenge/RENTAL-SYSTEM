@@ -1,317 +1,485 @@
 {% extends 'base.html' %}
-{%load static%}
-{%block style%}
-<style type="text/css">
-    body {
-    background: #F1F3FA;
+{% load static %}
+
+{% block style %}
+<style>
+    /* ----- SERIOUS GOVERNMENT PROFILE STYLE ----- */
+    .profile-container {
+        max-width: 1400px;
+        margin: 1.5rem auto;
+        padding: 0 1.5rem;
     }
-    /* Profile container */
-    .profile {
-    margin: 20px 0;
-    }
-    /* Profile sidebar */
+
+    /* Profile sidebar – official */
     .profile-sidebar {
-    padding: 20px 0 10px 0;
-    background: #fff;
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 1.8rem 1.5rem 1.5rem;
+        box-shadow: 0 6px 18px rgba(30, 30, 20, 0.06);
+        height: 100%;
     }
+
     .profile-userpic img {
-    float: none;
-    margin: 0 auto;
-    width: 50%;
-    height: 50%;
-    -webkit-border-radius: 50% !important;
-    -moz-border-radius: 50% !important;
-    border-radius: 50% !important;
+        width: 50%;
+        height: auto;
+        border-radius: 0 !important;
+        border: 3px solid #7f6a54;
+        padding: 0.2rem;
+        display: block;
+        margin: 0 auto;
+        background: #fff;
     }
+
     .profile-usertitle {
-    text-align: center;
-    margin-top: 20px;
+        text-align: center;
+        margin-top: 1.2rem;
+        border-bottom: 2px solid #d6c8b6;
+        padding-bottom: 0.8rem;
     }
+
     .profile-usertitle-name {
-    color: #5a7391;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 7px;
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        font-size: 1.6rem;
+        color: #1d3a33;
+        letter-spacing: 0.04em;
     }
+
     .profile-usertitle-job {
-    text-transform: uppercase;
-    color: #5b9bd1;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 15px;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.7rem;
+        color: #5f7a6b;
+        margin-top: 0.2rem;
     }
-    .profile-userbuttons {
-    text-align: center;
-    margin-top: 10px;
-    }
-    .profile-userbuttons .btn {
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 6px 15px;
-    margin-right: 5px;
-    }
-    .profile-userbuttons .btn:last-child {
-    margin-right: 0px;
-    }
-    .profile-usermenu {
-    margin-top: 30px;
-    }
-    .profile-usermenu ul li {
-    border-bottom: 1px solid #f0f4f7;
-    }
-    .profile-usermenu ul li:last-child {
-    border-bottom: none;
-    }
-    .profile-usermenu ul li a {
-    color: #93a3b5;
-    font-size: 14px;
-    font-weight: 400;
-    }
-    .profile-usermenu ul li a i {
-    margin-right: 8px;
-    font-size: 14px;
-    }
-    .profile-usermenu ul li a:hover {
-    background-color: #fafcfd;
-    color: #5b9bd1;
-    }
-    .profile-usermenu ul li.active {
-    border-bottom: none;
-    }
-    .profile-usermenu ul li.active a {
-    color: #5b9bd1;
-    background-color: #f6f9fb;
-    border-left: 2px solid #5b9bd1;
-    margin-left: -2px;
-    }
-    /* Profile Content */
-    .profile-content {
-    padding: 20px;
-    background: #fff;
-    min-height: 460px;
-    }
-    a, button, code, div, img, input, label, li, p, pre, select, span, svg, table, td, textarea, th, ul {
-    -webkit-border-radius: 0!important;
-    -moz-border-radius: 0!important;
-    border-radius: 0!important;
-    }
-    .dashboard-stat, .portlet {
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    -ms-border-radius: 4px;
-    -o-border-radius: 4px;
-    }
-    .portlet {
-    margin-top: 0;
-    margin-bottom: 25px;
-    padding: 0;
-    border-radius: 4px;
-    }
-    .portlet.bordered {
-    border-left: 2px solid #e6e9ec!important;
-    }
-    .portlet.light {
-    padding: 12px 20px 15px;
-    background-color: #fff;
-    }
-    .portlet.light.bordered {
-    border: 1px solid #e7ecf1!important;
-    }
-    .list-separated {
-    margin-top: 10px;
-    margin-bottom: 15px;
-    }
+
+    /* Profile stats – bold */
     .profile-stat {
-    padding-bottom: 20px;
-    border-bottom: 1px solid #f0f4f7;
+        display: flex;
+        justify-content: space-around;
+        padding: 1rem 0;
+        border-bottom: 2px solid #d6c8b6;
+        margin-bottom: 1rem;
     }
+
+    .profile-stat-item {
+        text-align: center;
+    }
+
     .profile-stat-title {
-    color: #7f90a4;
-    font-size: 25px;
-    text-align: center;
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        font-size: 2rem;
+        color: #1d3a33;
+        display: block;
     }
-    .uppercase {
-    text-transform: uppercase!important;
-    }
+
     .profile-stat-text {
-    color: #5b9bd1;
-    font-size: 10px;
-    font-weight: 600;
-    text-align: center;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #5f4f3e;
+        display: block;
+        margin-top: 0.1rem;
     }
+
+    /* Profile description */
     .profile-desc-title {
-    color: #7f90a4;
-    font-size: 17px;
-    font-weight: 600;
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #1d3a33;
+        letter-spacing: 0.04em;
+        border-bottom: 2px solid #d6c8b6;
+        padding-bottom: 0.4rem;
+        margin-bottom: 0.5rem;
     }
+
     .profile-desc-text {
-    color: #7e8c9e;
-    font-size: 14px;
+        font-family: 'Source Serif 4', serif;
+        font-size: 0.95rem;
+        color: #2a403a;
+        line-height: 1.6;
     }
-    .margin-top-20 {
-    margin-top: 20px!important;
+
+    .profile-desc-link {
+        margin-top: 0.8rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
     }
-    [class*=" fa-"]:not(.fa-stack), [class*=" glyphicon-"], [class*=" icon-"], [class^=fa-]:not(.fa-stack), [class^=glyphicon-], [class^=icon-] {
-    display: inline-block;
-    line-height: 14px;
-    -webkit-font-smoothing: antialiased;
-    }
+
     .profile-desc-link i {
-    width: 22px;
-    font-size: 19px;
-    color: #abb6c4;
-    margin-right: 5px;
+        width: 1.5rem;
+        color: #7f6a54;
+        font-size: 1rem;
+    }
+
+    .profile-desc-link a {
+        color: #5f7a6b;
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 1px solid transparent;
+        transition: 0.1s;
+    }
+
+    .profile-desc-link a:hover {
+        border-bottom-color: #7f6a54;
+        color: #1a332c;
+    }
+
+    /* Profile content area */
+    .profile-content {
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 1.8rem 1.8rem;
+        box-shadow: 0 6px 18px rgba(30, 30, 20, 0.06);
+        min-height: 460px;
+    }
+
+    .profile-content h5 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.4rem;
+        color: #1f3f38;
+        border-left: 8px solid #7f6a54;
+        padding-left: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    /* Cards inside profile */
+    .profile-content .card {
+        background: #fcfaf5 !important;
+        border: 1.5px solid #a38973;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px 12px rgba(30, 30, 20, 0.05);
+        transition: 0.15s ease;
+        height: 100%;
+    }
+
+    .profile-content .card:hover {
+        box-shadow: 0 8px 20px rgba(30, 40, 30, 0.10);
+        border-color: #6b5b4a;
+    }
+
+    .profile-content .card-body p {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #1f3530;
+        margin: 0.2rem 0;
+    }
+
+    .profile-content .card-body p strong {
+        color: #1d3a33;
+        font-weight: 700;
+    }
+
+    /* Buttons – government style */
+    .btn-gov {
+        background: #5f7a6b !important;
+        border: 1.5px solid #3d5a4e !important;
+        border-radius: 0 !important;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #fcf9f2;
+        padding: 0.3rem 1.2rem;
+        font-size: 0.7rem;
+        transition: 0.1s;
+    }
+
+    .btn-gov:hover {
+        background: #3d5a4e !important;
+        border-color: #1f3a32 !important;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(30, 50, 40, 0.2);
+    }
+
+    .btn-gov-danger {
+        background: #6d4c41 !important;
+        border: 1.5px solid #5a3e35 !important;
+        border-radius: 0 !important;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #fcf9f2;
+        padding: 0.3rem 1.2rem;
+        font-size: 0.7rem;
+        transition: 0.1s;
+    }
+
+    .btn-gov-danger:hover {
+        background: #4f372f !important;
+        border-color: #3d2a24 !important;
+        color: #fff;
+    }
+
+    .btn-gov-success {
+        background: #2d4f47 !important;
+        border: 1.5px solid #1e3a32 !important;
+        border-radius: 0 !important;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #fcf9f2;
+        padding: 0.4rem 1.5rem;
+        font-size: 0.75rem;
+        transition: 0.1s;
+    }
+
+    .btn-gov-success:hover {
+        background: #1a3d35 !important;
+        border-color: #0f2b24 !important;
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(30, 50, 40, 0.25);
+    }
+
+    .profile-userbuttons {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 2px solid #d6c8b6;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    /* Message alert */
+    .msg-box {
+        background: #dce8e0;
+        border-left: 6px solid #3d5a4e;
+        padding: 0.7rem 1.2rem;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #1a332c;
+        margin-bottom: 1.2rem;
+        border-radius: 0;
+    }
+
+    .msg-box i {
+        margin-right: 8px;
+        color: #3d5a4e;
+    }
+
+    /* sidebar nav */
+    .profile-usermenu ul {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0 0;
+    }
+
+    .profile-usermenu ul li {
+        border-bottom: 1px solid #d6c8b6;
+    }
+
+    .profile-usermenu ul li:last-child {
+        border-bottom: none;
+    }
+
+    .profile-usermenu ul li a {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #4f3f2e;
+        padding: 0.5rem 0;
+        display: block;
+        text-decoration: none;
+        transition: 0.1s;
+    }
+
+    .profile-usermenu ul li a i {
+        margin-right: 8px;
+        color: #7f6a54;
+        width: 1.2rem;
+    }
+
+    .profile-usermenu ul li a:hover {
+        color: #1d3a33;
+        background: rgba(127, 106, 84, 0.08);
+        padding-left: 0.5rem;
+    }
+
+    .profile-usermenu ul li.active a {
+        color: #1d3a33;
+        border-left: 4px solid #7f6a54;
+        padding-left: 0.8rem;
+        font-weight: 800;
+        background: rgba(127, 106, 84, 0.05);
+    }
+
+    /* responsive */
+    @media only screen and (max-width: 768px) {
+        .profile-container {
+            padding: 0 0.5rem;
+        }
+
+        .profile-sidebar {
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-userpic img {
+            width: 30%;
+        }
+
+        .profile-usertitle-name {
+            font-size: 1.3rem;
+        }
+
+        .profile-stat-title {
+            font-size: 1.6rem;
+        }
+
+        .profile-content {
+            padding: 1rem;
+        }
+
+        .profile-userbuttons {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .profile-userpic img {
+            width: 40%;
+        }
     }
 </style>
-{%endblock%}
-{%block nav%}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a style="margin-bottom: 5px" href="/"> <img src="{% static 'assets/logo.png' %}" style="height: 40px; width: 120px;"> </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button> 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-top: 10px; margin-left: 80px;">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/index">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/home">Explore</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/about">About us</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/contact">Contact us</a>
-            </li>
-        </ul>
-        {%endblock%}
-        {%block button%}     
-        <form action="/logout">
-            <button style="margin-left: 50px; margin-right: 50px; color: white; background-color: red" class="btn btn-outline-success my-2 my-sm-0"><strong>Logout</strong></button>
-        </form>
-    </div>
-</nav>
-{%endblock%}
-{%block body%}
-<div class="w3-container" style="margin-top:1%; margin-left: 10%; margin-right: 10%; margin-bottom: 1%;">
-    
+{% endblock %}
+
+{% block button %}
+<form action="/logout" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button class="btn btn-danger" style="margin-left: 0.5rem; border-radius: 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; padding: 0.35rem 1.2rem;">
+        <strong>Logout</strong>
+    </button>
+</form>
+{% endblock %}
+
+{% block body %}
+<div class="w3-container profile-container">
+
     <div class="row profile">
+        <!-- ====== SIDEBAR ====== -->
         <div class="col-md-3">
             <div class="profile-sidebar">
-              
+
+                <!-- User image -->
                 <div class="profile-userpic">
-                    <center>
-                        <img src="{%static 'assets/user.png'%}" alt="">
-                    </center>
+                    <img src="{% static 'assets/user.png' %}" alt="User profile photo">
                 </div>
-               
+
+                <!-- User title -->
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">
-                        {{user.name}}
-                    </div>
-                    <div class="profile-usertitle-job">
-                        Rental user
-                    </div>
+                    <div class="profile-usertitle-name">{{ user.name }}</div>
+                    <div class="profile-usertitle-job">Registered User · Housing Authority</div>
                 </div>
-                
+
+                <!-- Sidebar menu -->
                 <div class="profile-usermenu">
                     <ul class="nav">
                         <li class="active">
-                            <a href="#">
-                            <i class="glyphicon glyphicon-home"></i>
-                            Overview </a>
+                            <a href="#"><i class="fa fa-dashboard"></i> Overview</a>
                         </li>
                         <li>
-                            <a href="#">
-                            <i class="glyphicon glyphicon-user"></i>
-                            Account Settings </a>
+                            <a href="#"><i class="fa fa-user"></i> Account Settings</a>
                         </li>
                         <li>
-                            <a href="#">
-                            <i class="glyphicon glyphicon-ok"></i>
-                            Tasks </a>
+                            <a href="#"><i class="fa fa-tasks"></i> Tasks</a>
                         </li>
                         <li>
-                            <a href="#">
-                            <i class="glyphicon glyphicon-flag"></i>
-                            Help </a>
+                            <a href="#"><i class="fa fa-question-circle"></i> Help</a>
                         </li>
                     </ul>
                 </div>
-               
-                <div class="portlet light bordered">
-                    <div class="row list-separated profile-stat">
-                        <div class="col-md-4 col-sm-4 col-xs-6">
-                            <div class="uppercase profile-stat-title"> {{roomno}} </div>
-                            <div class="uppercase profile-stat-text">Room posted </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-6">
-                            <div class="uppercase profile-stat-title"> {{houseno}} </div>
-                            <div class="uppercase profile-stat-text"> House posted </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-6">
-                            <div class="uppercase profile-stat-title"> {{reportno}} </div>
-                            <div class="uppercase profile-stat-text"> Reports </div>
-                        </div>
+
+                <!-- Stats -->
+                <div class="profile-stat">
+                    <div class="profile-stat-item">
+                        <span class="profile-stat-title">{{ roomno }}</span>
+                        <span class="profile-stat-text">Rooms Posted</span>
                     </div>
-                   
-                    <div>
-                        <h4 class="profile-desc-title">About {{user.name}}</h4>
-                        <span class="profile-desc-text">Authenticated user of the Rental.
-                        Have permission to post ads on the site.
-                        </span>
-                        <div class="margin-top-20 profile-desc-link">
-                            <i class="fa fa-globe"></i>
-                            <a href="https://www.gmail.com">{{user.email}}</a>
-                        </div>
-                        <div class="margin-top-20 profile-desc-link">
-                            <i class="fa fa-phone"></i>
-                            <a href="#">{{user.number}}</a>
-                        </div>
-                        <div class="margin-top-20 profile-desc-link">
-                            <i class="fa fa-map-pin w3-margin-right"></i>
-                            <a href="https://www.google.com/maps/place/{{user.location}}">{{user.location}}</a>
-                        </div>
+                    <div class="profile-stat-item">
+                        <span class="profile-stat-title">{{ houseno }}</span>
+                        <span class="profile-stat-text">Houses Posted</span>
+                    </div>
+                    <div class="profile-stat-item">
+                        <span class="profile-stat-title">{{ reportno }}</span>
+                        <span class="profile-stat-text">Reports</span>
                     </div>
                 </div>
+
+                <!-- About user -->
+                <div>
+                    <h4 class="profile-desc-title">About {{ user.name }}</h4>
+                    <p class="profile-desc-text">
+                        Authenticated user of the Rental Housing Authority.
+                        Has permission to post ads on the official register.
+                    </p>
+                    <div class="profile-desc-link">
+                        <i class="fa fa-globe"></i>
+                        <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                    </div>
+                    <div class="profile-desc-link">
+                        <i class="fa fa-phone"></i>
+                        <a href="tel:{{ user.number }}">{{ user.number }}</a>
+                    </div>
+                    <div class="profile-desc-link">
+                        <i class="fa fa-map-pin"></i>
+                        <a href="https://www.google.com/maps/place/{{ user.location }}" target="_blank">{{ user.location }}</a>
+                    </div>
+                </div>
+
             </div>
         </div>
+
+        <!-- ====== MAIN CONTENT ====== -->
         <div class="col-md-9">
             <div class="profile-content">
 
-                 {% if messages %}
+                <!-- Messages -->
+                {% if messages %}
                     {% for message in messages %}
-                        <div class="alert alert-success alert-dismissible" role="alert">
-                          <strong>{{ message }}</strong> 
-                        </div>
+                    <div class="msg-box">
+                        <i class="fa fa-check-circle"></i> {{ message }}
+                    </div>
                     {% endfor %}
                 {% endif %}
 
-                
-
-
+                <!-- APARTMENT SECTION -->
                 {% if room %}
-                <h5 class="my-4" style="text-align: center;"> Apartment - Posted for You.</h5>
+                <h5><i class="fa fa-building" style="color: #5f7a6b; margin-right: 8px;"></i> Apartment – Posted by You</h5>
                 <div class="w3-row-padding">
                     <div class="col carousel slide my-3" data-ride="carousel">
                         <div class="carousel-inner no-padding">
                             <div class="carousel-item active">
-                                {% for i in room.0%}
-                                <div class="w3-third w3-container w3-margin-bottom ">
-                                    <div class="card" style=" background-color: #e9ecef;">
-                                        <img src='{{i.img.url}}' class="w3-hover-opacity" style="height: 250px; width: 100%" alt="...">
+                                {% for i in room.0 %}
+                                <div class="w3-third w3-container w3-margin-bottom">
+                                    <div class="card">
+                                        <img src="{{ i.img.url }}" class="w3-hover-opacity" style="height: 220px; width: 100%; object-fit: cover;" alt="Apartment image">
                                         <div class="card-body">
-                                            <p>{{i.room_id}}</p>
-                                            <p>{{i.cost}}</p>
-                                            <p>{{i.location}}</p>
-                                            <form action="/deleter">
-                                                <button name="id" value="{{i.room_id}}"  type="submit" class="btn btn-sm w3-dark-grey">Delete</button>
-                                            </form>
-                                            <form action="/descr"  style="margin-bottom: 5px;">
-                                                <button name="id" value="{{i.room_id}}" class="btn btn-sm w3-blue"> Quick view</button>
-                                            </form> 
+                                            <p><strong>ID:</strong> {{ i.room_id }}</p>
+                                            <p><strong>Cost:</strong> Ksh {{ i.cost }}</p>
+                                            <p><strong>Location:</strong> {{ i.location }}</p>
+                                            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                                                <form action="/deleter" style="display:inline;">
+                                                    <button name="id" value="{{ i.room_id }}" type="submit" class="btn-gov-danger"><i class="fa fa-trash"></i> Delete</button>
+                                                </form>
+                                                <form action="/descr" style="display:inline;">
+                                                    <button name="id" value="{{ i.room_id }}" class="btn-gov"><i class="fa fa-eye"></i> Quick View</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -323,35 +491,37 @@
                             </div>
                         </div>
                     </div>
-                    </a>
                 </div>
                 {% endif %}
 
-                 <div class="profile-userbuttons">
-                    <a href="/post/"><button type="submit" class="btn btn-success btn-sm">Post ad for Apartment</button>
-                    </a>
+                <!-- Post Apartment button -->
+                <div class="profile-userbuttons">
+                    <a href="/post/"><button type="submit" class="btn-gov-success"><i class="fa fa-plus"></i> Post Apartment Ad</button></a>
                 </div>
 
+                <!-- HOUSES SECTION -->
                 {% if house %}
-                <h5 class="my-4" style="text-align: center;"> Houses - Posted for You.</h5>
+                <h5 style="margin-top: 2rem;"><i class="fa fa-home" style="color: #5f7a6b; margin-right: 8px;"></i> Houses – Posted by You</h5>
                 <div class="w3-row-padding">
                     <div class="col carousel slide my-3" data-ride="carousel">
                         <div class="carousel-inner no-padding">
                             <div class="carousel-item active">
-                                {% for i in house.0%}
+                                {% for i in house.0 %}
                                 <div class="w3-third w3-container w3-margin-bottom">
-                                    <div class="card" style=" background-color: #e9ecef;">
-                                        <img src='{{i.img.url}}' class="w3-hover-opacity" style="height: 250px; width: 100%" alt="...">
+                                    <div class="card">
+                                        <img src="{{ i.img.url }}" class="w3-hover-opacity" style="height: 220px; width: 100%; object-fit: cover;" alt="House image">
                                         <div class="card-body">
-                                            <p>{{i.house_id}}</p>
-                                            <p>{{i.cost}}</p>
-                                            <p>{{i.location}}</p>
-                                            <form action="/deleteh" >
-                                                <button name="id" value="{{i.house_id}}"  type="submit" class="btn btn-sm w3-dark-grey">Delete</button>
-                                            </form>
-                                            <form action="/descr"  style="margin-bottom: 5px;">
-                                                <button name="id" value="{{i.house_id}}" class="btn  btn-sm w3-blue"> Quick view</button>
-                                            </form>
+                                            <p><strong>ID:</strong> {{ i.house_id }}</p>
+                                            <p><strong>Cost:</strong> Ksh {{ i.cost }}</p>
+                                            <p><strong>Location:</strong> {{ i.location }}</p>
+                                            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                                                <form action="/deleteh" style="display:inline;">
+                                                    <button name="id" value="{{ i.house_id }}" type="submit" class="btn-gov-danger"><i class="fa fa-trash"></i> Delete</button>
+                                                </form>
+                                                <form action="/descr" style="display:inline;">
+                                                    <button name="id" value="{{ i.house_id }}" class="btn-gov"><i class="fa fa-eye"></i> Quick View</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -366,68 +536,14 @@
                 </div>
                 {% endif %}
 
-
-
+                <!-- Post House button -->
                 <div class="profile-userbuttons">
-                    <a href="/posth/"><button type="submit" class="btn btn-success btn-sm">Post ad for House</button></a>
+                    <a href="/posth/"><button type="submit" class="btn-gov-success"><i class="fa fa-plus"></i> Post House Ad</button></a>
                 </div>
-                <!-- {% if room%}
-                <br>
-                <hr>
-                <br>
-                <h3 class="profile-desc-title">Apartment posted..</h3>
-                {%for i in room%}
-                <div style="width: 100%; float: left;">
-                    <div style="width: 50%; float: right; margin-bottom: 5px;">
-                        <img src="{{ i.img.url }}" height="180px" width="270px">
-                    </div>
-                    <p>{{i.room_id}}</p>
-                    <p>{{i.cost}}</p>
-                    <p>{{i.location}}</p>
-                    <form action="/deleter">
-                        <button name="id" value="{{i.room_id}}" style="background-color: red;" type="submit" class="btn btn-success btn-sm">delete the ad</button>
-                    </form>
-                    <form action="/descr"  style="margin-bottom: 5px;">
-                        <button name="id" value="{{i.room_id}}" style="background-color: grey"class="btn btn-success btn-sm"> Quick view</button>
-                    </form>
-                </div>
-                <br>
-                {%endfor%}
-                {%else%}
-                <center>
-                    <h3 class="profile-desc-title">no Apartment posted..</h3>
-                </center>
-                {%endif%}
-                {% if house%}
-                <br>
-                <hr>
-                <br>
-                <h3 class="profile-desc-title">House posted..</h3>
-                {%for i in house%}
-                <div style="width: 100%; float: left;">
-                    <div style="width: 50%; float: right; margin-bottom: 5px;">
-                        <img src="{{ i.img.url }}" height="180px" width="270px">
-                    </div>
-                    <p>{{i.house_id}}</p>
-                    <p>{{i.cost}}</p>
-                    <p>{{i.location}}</p>
-                    <form action="/deleteh" >
-                        <button name="id" value="{{i.house_id}}" style="background-color: red;" type="submit" class="btn btn-success btn-sm">delete the ad</button>
-                    </form>
-                    <form action="/descr"  style="margin-bottom: 5px;">
-                        <button name="id" value="{{i.house_id}}" style="background-color: grey"class="btn btn-success btn-sm"> Quick view</button>
-                    </form>
-                    <br>
-                    {%endfor%}
-                    {%else%}
-                    <center>
-                        <h3 class="profile-desc-title">no House posted..</h3>
-                    </center>
-                    {%endif%} -->
-                </div>
+
             </div>
         </div>
     </div>
+
 </div>
-</div>
-{%endblock%}
+{% endblock %}

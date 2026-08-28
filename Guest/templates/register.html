@@ -1,40 +1,249 @@
 {% extends 'base.html' %}
-{%load static%}
+{% load static %}
 
-{%block button%}
+{% block style %}
+<style>
+    /* ----- SERIOUS GOVERNMENT REGISTER STYLE ----- */
+    .register-container {
+        max-width: 620px;
+        margin: 2rem auto 4rem;
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 2rem 2.5rem 2.5rem;
+        box-shadow: 0 12px 30px rgba(30, 30, 20, 0.10);
+        border-radius: 0;
+    }
+
+    .register-container h2 {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-weight: 800;
+        font-size: 2.2rem;
+        letter-spacing: 0.06em;
+        color: #1d3a33;
+        text-transform: uppercase;
+        border-bottom: 5px solid #7f6a54;
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.8rem;
+        text-align: center;
+    }
+
+    .register-container h2 i {
+        color: #7f6a54;
+        margin-right: 10px;
+    }
+
+    .register-container .form-group {
+        margin-bottom: 1.1rem;
+    }
+
+    .register-container label {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.75rem;
+        color: #1f3530;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .register-container label i {
+        margin-right: 6px;
+        color: #7f6a54;
+        width: 1.1rem;
+    }
+
+    .register-container input[type="text"],
+    .register-container input[type="password"],
+    .register-container input[type="number"],
+    .register-container input[type="email"] {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        background: #fcfaf6;
+        border: 2px solid #84705c;
+        border-radius: 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #1e2b2c;
+        transition: 0.15s;
+    }
+
+    .register-container input[type="text"]:focus,
+    .register-container input[type="password"]:focus,
+    .register-container input[type="number"]:focus,
+    .register-container input[type="email"]:focus {
+        border-color: #5f7a6b;
+        box-shadow: 0 0 0 3px rgba(95, 122, 107, 0.25);
+        background: #ffffff;
+        outline: none;
+    }
+
+    .register-container .btn-register {
+        background: #2d4f47 !important;
+        border: 2px solid #1e3a32 !important;
+        border-radius: 0 !important;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #fcf8f0;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        width: 100%;
+        transition: 0.15s;
+        cursor: pointer;
+        margin-top: 0.5rem;
+    }
+
+    .register-container .btn-register:hover {
+        background: #1a3d35 !important;
+        border-color: #0f2b24 !important;
+        box-shadow: 0 3px 10px rgba(30, 50, 40, 0.25);
+    }
+
+    .register-container .footer-links {
+        border-top: 2px solid #d6c8b6;
+        padding-top: 1.2rem;
+        margin-top: 1.5rem;
+        text-align: center;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        color: #4f3f2e;
+    }
+
+    .register-container .footer-links a {
+        color: #5f7a6b;
+        font-weight: 700;
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: 0.1s;
+    }
+
+    .register-container .footer-links a:hover {
+        border-bottom-color: #7f6a54;
+        color: #1a332c;
+    }
+
+    .register-container .msg-box {
+        background: #f2e3d8;
+        border-left: 6px solid #8b4c3c;
+        padding: 0.7rem 1rem;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #5a2d1f;
+        margin-bottom: 1.2rem;
+        border-radius: 0;
+    }
+
+    .register-container .msg-box.success {
+        background: #dce8e0;
+        border-left-color: #3d5a4e;
+        color: #1a332c;
+    }
+
+    .register-container .msg-box i {
+        margin-right: 8px;
+    }
+
+    .register-container .row-duo {
+        display: flex;
+        gap: 1.2rem;
+    }
+
+    .register-container .row-duo .form-group {
+        flex: 1;
+    }
+
+    /* responsive */
+    @media only screen and (max-width: 600px) {
+        .register-container {
+            margin: 1rem 0.5rem;
+            padding: 1.5rem 1.2rem;
+        }
+
+        .register-container h2 {
+            font-size: 1.6rem;
+        }
+
+        .register-container .row-duo {
+            flex-direction: column;
+            gap: 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block button %}
 <a class="btn btn-outline-success navbar-login-btn-sm" href="/login" style="color: white;"><strong>Login</strong></a>
-{%endblock%}
+{% endblock %}
 
-{%block body%}
-<div class="w3-container" style="margin-top:1%; margin-left: 5%; margin-right: 5%;">
-    <h2>Sign up</h2>
-    <div class="alert alert-info" role="alert">
-      {%if msg%}
-    <p>{{msg}}</p>
-    {%endif%}
-    </div>
-    
-    <form class="modal-content animate" action="/register" method="post">
-        <div class="container">
-            {% csrf_token %}
-            <label for="name"><b>Name</b></label>
-            <input type="text" placeholder="Enter Name" name="name" required>
-            <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="user@host.com" name="email" required>
-            <label for="location"><b>Location</b></label>
-            <input type="text" placeholder="Alambagh" name="location" required>
-            <label for="city"><b>City</b></label>
-            <input type="text" placeholder="Lucknow" name="city" required>
-            <label for="state"><b>State</b></label>
-            <input type="text" placeholder="Uttar pradesh" name="state" required>
-            <label for="Phone"><b>Phone Number</b></label>
-            <input type="number" placeholder="Enter 10 digit Number" name="phone" required>
-            <label for="pass"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="pass" required>
-            <label for="cpass"><b>Confirm Password</b></label>
-            <input type="password" placeholder="Confirm Password" name="cpass" required>
-            <button class="btn btn-primary btn-block" type="submit">Sign up</button>
+{% block body %}
+<div class="w3-container">
+    <div class="register-container">
+        <h2><i class="fa fa-user-plus"></i>Sign up</h2>
+
+        {% if msg %}
+        <div class="msg-box {% if 'success' in msg|lower %}success{% endif %}">
+            <i class="fa {% if 'success' in msg|lower %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %}"></i>
+            {{ msg }}
         </div>
-    </form>
+        {% endif %}
+
+        <form action="/register" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="name"><i class="fa fa-user"></i>Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email"><i class="fa fa-envelope"></i>Email</label>
+                <input type="text" id="email" placeholder="user@host.com" name="email" required>
+            </div>
+
+            <div class="row-duo">
+                <div class="form-group">
+                    <label for="location"><i class="fa fa-map-pin"></i>Location</label>
+                    <input type="text" id="location" placeholder="e.g. Alambagh" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="city"><i class="fa fa-building"></i>City</label>
+                    <input type="text" id="city" placeholder="e.g. Lucknow" name="city" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="state"><i class="fa fa-flag"></i>State</label>
+                <input type="text" id="state" placeholder="e.g. Uttar Pradesh" name="state" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone"><i class="fa fa-phone"></i>Phone Number</label>
+                <input type="number" id="phone" placeholder="Enter 10-digit number" name="phone" required>
+            </div>
+
+            <div class="row-duo">
+                <div class="form-group">
+                    <label for="pass"><i class="fa fa-key"></i>Password</label>
+                    <input type="password" id="pass" placeholder="Enter password" name="pass" required>
+                </div>
+                <div class="form-group">
+                    <label for="cpass"><i class="fa fa-check-circle"></i>Confirm Password</label>
+                    <input type="password" id="cpass" placeholder="Confirm password" name="cpass" required>
+                </div>
+            </div>
+
+            <button class="btn-register" type="submit">
+                <i class="fa fa-user-plus" style="margin-right: 8px;"></i> Create Account
+            </button>
+
+            <div class="footer-links">
+                <span>Already have an account? <a href="/login">Login here</a></span>
+            </div>
+        </form>
+    </div>
 </div>
-{%endblock%}
+{% endblock %}

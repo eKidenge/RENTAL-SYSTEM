@@ -1,66 +1,289 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block style %}
 <style>
-    p {
-        margin: 0.5rem 0!important;
+    /* ----- SERIOUS GOVERNMENT CONTACT STYLE ----- */
+    .contact-container {
+        max-width: 900px;
+        margin: 2rem auto 3rem;
+        background: #f7f4ed;
+        border: 2px solid #a38973;
+        padding: 2rem 2.5rem 2.5rem;
+        box-shadow: 0 12px 30px rgba(30, 30, 20, 0.10);
+        border-radius: 0;
     }
 
+    .contact-container h2 {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-weight: 800;
+        font-size: 2.4rem;
+        letter-spacing: 0.08em;
+        color: #1d3a33;
+        text-transform: uppercase;
+        border-bottom: 5px solid #7f6a54;
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.8rem;
+    }
+
+    .contact-container h2 i {
+        color: #7f6a54;
+        margin-right: 10px;
+    }
+
+    .contact-container .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .contact-container label {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.78rem;
+        color: #1f3530;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .contact-container label i {
+        margin-right: 6px;
+        color: #7f6a54;
+        width: 1.2rem;
+    }
+
+    .contact-container .form-control-gov {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: #fcfaf6;
+        border: 2px solid #84705c;
+        border-radius: 0;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #1e2b2c;
+        transition: 0.15s;
+    }
+
+    .contact-container .form-control-gov:focus {
+        border-color: #5f7a6b;
+        box-shadow: 0 0 0 3px rgba(95, 122, 107, 0.25);
+        background: #ffffff;
+        outline: none;
+    }
+
+    .contact-container .btn-send {
+        background: #2d4f47 !important;
+        border: 2px solid #1e3a32 !important;
+        border-radius: 0 !important;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #fcf8f0;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        transition: 0.15s;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        border: none;
+    }
+
+    .contact-container .btn-send:hover {
+        background: #1a3d35 !important;
+        border-color: #0f2b24 !important;
+        box-shadow: 0 3px 10px rgba(30, 50, 40, 0.25);
+    }
+
+    .contact-container .btn-send i {
+        margin-right: 8px;
+    }
+
+    /* Contact info cards */
+    .contact-info-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        margin: 2rem 0 1.5rem;
+        border: 2px solid #a38973;
+    }
+
+    .contact-info-grid .info-card {
+        flex: 1;
+        min-width: 180px;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        background: #d9d0c0;
+        border-right: 2px solid #a38973;
+        transition: 0.15s;
+    }
+
+    .contact-info-grid .info-card:last-child {
+        border-right: none;
+    }
+
+    .contact-info-grid .info-card:hover {
+        background: #cabbab;
+    }
+
+    .contact-info-grid .info-card i {
+        font-size: 2.2rem;
+        color: #5f7a6b;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-info-grid .info-card p {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #1f3530;
+        margin: 0;
+        letter-spacing: 0.02em;
+    }
+
+    .contact-info-grid .info-card .label {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #5f4f3e;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.2rem;
+    }
+
+    /* message alert */
+    .msg-box {
+        background: #dce8e0;
+        border-left: 6px solid #3d5a4e;
+        padding: 0.8rem 1.2rem;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #1a332c;
+        margin-bottom: 1.2rem;
+        border-radius: 0;
+    }
+
+    .msg-box i {
+        margin-right: 8px;
+        color: #3d5a4e;
+    }
+
+    /* footer note */
+    .contact-footer-note {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #5f4f3e;
+        text-align: center;
+        border-top: 2px solid #d6c8b6;
+        padding-top: 1.2rem;
+        margin-top: 1.5rem;
+    }
+
+    .contact-footer-note a {
+        color: #5f7a6b;
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 1px solid transparent;
+        transition: 0.1s;
+    }
+
+    .contact-footer-note a:hover {
+        border-bottom-color: #7f6a54;
+        color: #1a332c;
+    }
+
+    /* responsive */
     @media only screen and (max-width: 600px) {
-        form {
-            text-align: center;
+        .contact-container {
+            margin: 1rem 0.5rem;
+            padding: 1.5rem 1.2rem;
+        }
+
+        .contact-container h2 {
+            font-size: 1.8rem;
+        }
+
+        .contact-info-grid .info-card {
+            flex: 1 1 100%;
+            border-right: none;
+            border-bottom: 2px solid #a38973;
+        }
+
+        .contact-info-grid .info-card:last-child {
+            border-bottom: none;
         }
     }
 </style>
 {% endblock %}
-</style>
-{% block body %} 
-<div class="w3-container w3-padding-large" style="margin-right: 5%; margin-left: 5%; margin-bottom: 1%; margin-top: 1%;">
-    {%if msg%}
-    <div class="alert alert-info" role="alert">
-       {{msg}}
-    </div>
-    {%endif%}
-   
-    
-    <h2 style="margin-left:10px;">Contact us</h2>
 
-    <hr class="w3-opacity">
-    <form action="/contact/" method="post">
-        {% csrf_token %}
-        <div class="w3-section">
-            <label>Subject</label>
-            <input class="w3-input w3-border" type="text" name="subject" required>
+{% block body %}
+<div class="w3-container">
+    <div class="contact-container">
+
+        <h2><i class="fa fa-envelope"></i>Contact us</h2>
+
+        {% if msg %}
+        <div class="msg-box">
+            <i class="fa fa-check-circle"></i> {{ msg }}
         </div>
-        <div class="w3-section">
-            <label>Email</label>
-            <input class="w3-input w3-border" type="text" name="email" required>
+        {% endif %}
+
+        <form action="/contact/" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="subject"><i class="fa fa-tag"></i>Subject</label>
+                <input class="form-control-gov" id="subject" type="text" name="subject" placeholder="Enter message subject" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email"><i class="fa fa-envelope"></i>Email</label>
+                <input class="form-control-gov" id="email" type="text" name="email" placeholder="your.email@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="body"><i class="fa fa-comment"></i>Message</label>
+                <input class="form-control-gov" id="body" type="text" name="body" placeholder="Write your message here..." required>
+            </div>
+
+            <button type="submit" class="btn-send">
+                <i class="fa fa-paper-plane"></i> Send Message
+            </button>
+        </form>
+
+        <!-- Contact info cards -->
+        <div class="contact-info-grid">
+            <div class="info-card">
+                <i class="fa fa-envelope"></i>
+                <span class="label">Email</span>
+                <p>rentalforpeople@gmail.com</p>
+            </div>
+            <div class="info-card">
+                <i class="fa fa-map-marker"></i>
+                <span class="label">Location</span>
+                <p>Nairobi, Kenya</p>
+            </div>
+            <div class="info-card">
+                <i class="fa fa-phone"></i>
+                <span class="label">Phone</span>
+                <p>+254 742 007 544</p>
+            </div>
         </div>
-        <div class="w3-section">
-            <label>Message</label>
-            <input class="w3-input w3-border" type="text" name="body" required>
+
+        <!-- Footer note -->
+        <div class="contact-footer-note">
+            <p style="margin: 0; font-size: 0.7rem; text-transform: none; letter-spacing: 0.02em;">
+                <i class="fa fa-info-circle" style="color: #7f6a54;"></i>
+                Images and info in the app are for demonstration purposes.
+                Idea from <a href="http://rentalforpeople.wordpress.com" target="_blank">rentalforpeople.wordpress.com</a>
+                <br>Contact Elisha Kidenge at <a href="mailto:elishakidenge@gmail.com">elishakidenge@gmail.com</a>
+            </p>
         </div>
-        <button type="submit" class="w3-button w3-black"><i class="fa fa-paper-plane w3-margin-right"></i>Send Message</button>
-    </form>
-    <div class="w3-row-padding w3-center w3-padding-24" style="margin:0 -16px">
-        <div class="w3-third w3-dark-grey">
-            <p><i class="fa fa-envelope w3-xxlarge w3-text-light-grey"></i></p>
-            <p>rentalforpeople@gmail.com</p>
-        </div>
-        <div class="w3-third w3-teal">
-            <p><i class="fa fa-map-marker w3-xxlarge w3-text-light-grey"></i></p>
-            <p>Nairobi, Kenya</p>
-        </div>
-        <div class="w3-third w3-dark-grey">
-            <p><i class="fa fa-phone w3-xxlarge w3-text-light-grey"></i></p>
-            <p>+254 742 007 544</p>
-        </div>
-    </div>
-    <div class="w3-panel w3-large w3-center">
-        <p style="font-size: x-small;">
-            Images and info in the app are dummy, the idea from http://rentalforpeople.wordpress.com
-            Contact Elisha Kidenge at elishakidenge@gmail.com.
-        </p>
+
     </div>
 </div>
 {% endblock %}
